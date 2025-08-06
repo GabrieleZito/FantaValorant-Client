@@ -54,6 +54,7 @@ function LoginForm({ setIsLogin }) {
         },
         onError: (err) => {
             console.log(err);
+            setError("password", {message: "Wrong username or password"})
         },
         retry: false,
     });

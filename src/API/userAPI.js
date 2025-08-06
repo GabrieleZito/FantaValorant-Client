@@ -14,9 +14,15 @@ const login = async (credentials) => {
     return res.data;
 };
 
+const logout = async () => {
+    const res = await axiosConf.post(`${URL}/auth/logout`);
+    return res.data;
+};
+
 const userAPI = {
     register,
     login,
+    logout,
 };
 
 export default userAPI;

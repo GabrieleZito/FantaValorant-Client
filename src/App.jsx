@@ -4,7 +4,9 @@ import { HomeTemplate } from "./components/custom/HomeTemplate";
 import { SignIn } from "./components/custom/SignIn";
 import { Home } from "./components/custom/Home";
 import { Dashboard } from "./components/custom/Dashboard";
-
+import { Main } from "./components/custom/Main";
+import { Friends } from "./components/custom/Friends";
+import { Toaster } from "react-hot-toast";
 function App() {
     return (
         <>
@@ -14,11 +16,13 @@ function App() {
                         <Route index element={<Home />} />
                         <Route path="sign-in" element={<SignIn />} />
                     </Route>
-                    <Route path="/dashboard">
+                    <Route path="/dashboard" element={<Main />}>
                         <Route index element={<Dashboard />} />
+                        <Route path="friends" element={<Friends />} />
                     </Route>
                 </Routes>
             </BrowserRouter>
+            <Toaster position="top-right"  />
         </>
     );
 }
