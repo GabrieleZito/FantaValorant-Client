@@ -7,7 +7,7 @@ import { ChevronDownIcon, ArrowLeftStartOnRectangleIcon } from "@heroicons/react
 import { Link, Outlet, useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { useMutation } from "@tanstack/react-query";
-import userAPI from "../../API/userAPI";
+import userAPI from "../../API/authAPI";
 import { setUser } from "../../redux/slices/userSlice";
 import { Sun, Moon } from "lucide-react";
 import { switchTheme } from "@/redux/slices/themeSlice";

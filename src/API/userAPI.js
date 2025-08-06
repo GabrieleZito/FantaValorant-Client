@@ -4,25 +4,13 @@ const axiosConf = axios.create({
     withCredentials: true,
 });
 
-const register = async (user) => {
-    const res = await axiosConf.post(`${URL}/auth/register`, user);
-    return res.data;
-};
-
-const login = async (credentials) => {
-    const res = await axiosConf.post(`${URL}/auth/login`, credentials);
-    return res.data;
-};
-
-const logout = async () => {
-    const res = await axiosConf.post(`${URL}/auth/logout`);
+const friendRequest = async (data) => {
+    const res = await axiosConf.post(`${URL}/users/friends/request`, data);
     return res.data;
 };
 
 const userAPI = {
-    register,
-    login,
-    logout,
+    friendRequest,
 };
 
 export default userAPI;
