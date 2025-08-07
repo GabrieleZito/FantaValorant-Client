@@ -12,27 +12,14 @@ import { setUser } from "../../redux/slices/userSlice";
 import { Sun, Moon } from "lucide-react";
 import { switchTheme } from "@/redux/slices/themeSlice";
 
+//TODO rifare i colori per la dark mode
+
 export function Main() {
     const user = useSelector((state) => state.user);
     const theme = useSelector((state) => state.theme.value);
     const dispatch = useDispatch();
-    const navigate = useNavigate();
 
-    const sendLogout = useMutation({
-        mutationFn: userAPI.logout,
-        mutationKey: ["logout"],
-        onSuccess: () => {
-            dispatch(setUser({}));
-            navigate("/");
-        },
-        onError: (err) => {
-            console.log(err);
-        },
-    });
 
-    const logout = () => {
-        sendLogout.mutate();
-    };
 
     const toggleTheme = () => {
         dispatch(switchTheme());
@@ -48,11 +35,11 @@ export function Main() {
             <SidebarProvider className={`${theme ? "dark" : ""}`}>
                 <SidebarApp />
                 <SidebarInset>
-                    <header className="flex h-16 shrink-0 items-center gap-2 border-b">
-                        <div className="flex w-full flex-row items-center justify-between gap-2 px-3">
+                    <header className="flex items-center h-16 gap-2 border-b shrink-0">
+                        <div className="flex flex-row items-center justify-between w-full gap-2 px-3">
                             <div className="flex items-center">
                                 <SidebarTrigger />
-                                <Separator orientation="vertical" className="mr-2 h-4" />
+                                <Separator orientation="vertical" className="h-4 mr-2" />
                                 {/* TODO: dinamiche breadcrumb */}
                                 <Breadcrumb>
                                     <BreadcrumbList>
@@ -83,7 +70,7 @@ export function Main() {
                                     <span
                                         className={`z-10 inline-flex h-6 w-6 transform items-center justify-center rounded-full bg-white shadow-lg transition-all duration-200 ease-in-out ${theme ? "translate-x-9" : "translate-x-1"} `}
                                     >
-                                        {theme ? <Moon className="h-3 w-3 text-indigo-600" /> : <Sun className="h-3 w-3 text-yellow-600" />}
+                                        {theme ? <Moon className="w-3 h-3 text-indigo-600" /> : <Sun className="w-3 h-3 text-yellow-600" />}
                                     </span>
                                 </button>
                             </div>

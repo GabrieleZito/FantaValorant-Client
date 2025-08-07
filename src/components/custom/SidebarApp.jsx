@@ -15,8 +15,11 @@ import {
 } from "@/components/ui/sidebar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useSelector } from "react-redux";
-import { Link } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router";
+import { useMutation } from "@tanstack/react-query";
+import { setUser } from "@/redux/slices/userSlice";
+import authAPI from "@/API/authAPI";
 
 const leaderboardItems = [
     {
@@ -62,7 +65,23 @@ const teamItems = [
 
 export function SidebarApp({ ...props }) {
     const user = useSelector((state) => state.user);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
+    const sendLogout = useMutation({
+        mutationFn: authAPI.logout,
+        mutationKey: ["logout"],
+        onSuccess: () => {
+            dispatch(setUser({}));
+            navigate("/");
+        },
+        onError: (err) => {
+            console.log(err);
+        },
+    });
+    const logout = () => {
+        sendLogout.mutate();
+    };
     return (
         <Sidebar {...props}>
             <SidebarHeader>
@@ -77,7 +96,7 @@ export function SidebarApp({ ...props }) {
                                     <Avatar className="w-8 h-8 rounded-lg">
                                         <AvatarImage src={user.propic || "/placeholder.svg"} alt={user.name} />
                                         <AvatarFallback className="rounded-lg">
-                                            {user.firstName.charAt(0) + "" + user.lastName.charAt(0)}
+                                            {user.firstName?.charAt(0) || "" + "" + user.lastName?.charAt(0) || ""}
                                         </AvatarFallback>
                                     </Avatar>
                                     <div className="grid flex-1 text-sm leading-tight text-left">
@@ -161,7 +180,7 @@ export function SidebarApp({ ...props }) {
                             </SidebarMenuItem>
                             <SidebarMenuItem>
                                 <SidebarMenuButton asChild>
-                                    <Link to="#">
+                                    <Link to="/dashboard/invites">
                                         <Mail />
                                         <span>Invites</span>
                                     </Link>
@@ -192,10 +211,10 @@ export function SidebarApp({ ...props }) {
                     </SidebarMenuItem>
                     <SidebarMenuItem>
                         <SidebarMenuButton asChild>
-                            <a href="#">
+                            <div onClick={logout} className="hover:cursor-pointer">
                                 <LogOut />
                                 <span>Logout</span>
-                            </a>
+                            </div>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
                 </SidebarMenu>

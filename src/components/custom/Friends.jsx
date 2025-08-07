@@ -2,8 +2,10 @@ import { Search } from "lucide-react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import toast, { ToastBar, Toaster } from "react-hot-toast";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import userAPI from "@/API/userAPI";
+import { Avatar, AvatarImage, AvatarFallback } from "../ui/avatar";
+import { getTimeAgo } from "@/utils/timePassed";
 
 export function Friends() {
     const user = useSelector((state) => state.user);
@@ -28,6 +30,12 @@ export function Friends() {
         e.preventDefault();
         sendRequest.mutate({ username: search });
     };
+
+    const getFriends = useQuery({
+        queryKey: ["getFriends"],
+        queryFn: userAPI.getFriends,
+    });
+    console.log(getFriends.data);
 
     return (
         <>
@@ -54,6 +62,39 @@ export function Friends() {
                         </button>
                     </div>
                 </form>
+                <div>
+                    <p className="mt-2 text-2xl text-foreground">Your Friends</p>
+                    <div>
+                        {getFriends.data && getFriends.data.data && getFriends.data.data.length > 0 ? (
+                            getFriends.data.data.map((f) => {
+                                let friend;
+                                if (f.Sender.id == user.id) {
+                                    friend = f.Receiver;
+                                } else friend = f.Sender;
+                                return (
+                                    <div
+                                        key={f.id}
+                                        className="flex items-center justify-between p-3 mt-2 transition-colors border rounded-lg bg-card hover:bg-accent/50"
+                                    >
+                                        <div className="flex items-center space-x-3">
+                                            <Avatar className="w-10 h-10">
+                                                <AvatarImage src={friend.propic} alt={friend.username} />
+                                                <AvatarFallback>{f.Sender.username.charAt(0)}</AvatarFallback>
+                                            </Avatar>
+                                            <div className="flex items-center">
+                                                <p className="font-semibold text-foreground">{friend.username}</p>
+                                                {/* <p className="text-sm text-muted-foreground">@{f.username}</p> */}
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center justify-end w-full px-5 text-foreground">{getTimeAgo(f.updatedAt)}</div>
+                                    </div>
+                                );
+                            })
+                        ) : (
+                            <div className="text-foreground">You have no friends :)</div>
+                        )}
+                    </div>
+                </div>
             </div>
         </>
     );
