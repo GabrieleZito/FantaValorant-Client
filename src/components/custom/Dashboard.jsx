@@ -1,8 +1,16 @@
-import { useSelector } from "react-redux";
+import { setBreadcrumb } from "@/redux/slices/breadcrumbSlice";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router";
 
 export function Dashboard() {
     const user = useSelector((state) => state.user);
-    //console.log(user);
+    const location = useLocation();
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(setBreadcrumb(location.pathname));
+    }, []);
 
     return (
         <>
@@ -12,7 +20,7 @@ export function Dashboard() {
                     <div className="aspect-video rounded-xl bg-blue-200/50" />
                     <div className="aspect-video rounded-xl bg-blue-200/50" />
                 </div>
-                <div className="min-h-[100vh] flex-1 rounded-xl bg-blue-200/50 md:min-h-min" ></div>
+                <div className="min-h-[100vh] flex-1 rounded-xl bg-blue-200/50 md:min-h-min"></div>
             </div>
         </>
     );

@@ -4,30 +4,31 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbP
 import { Separator } from "@/components/ui/separator";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { ChevronDownIcon, ArrowLeftStartOnRectangleIcon } from "@heroicons/react/24/outline";
-import { Link, Outlet, useNavigate } from "react-router";
+import { Link, Outlet, useLocation, useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { useMutation } from "@tanstack/react-query";
 import userAPI from "../../API/authAPI";
 import { setUser } from "../../redux/slices/userSlice";
 import { Sun, Moon } from "lucide-react";
 import { switchTheme } from "@/redux/slices/themeSlice";
+import { setBreadcrumb } from "@/redux/slices/breadcrumbSlice";
 
 //TODO rifare i colori per la dark mode
+//TODO provare react-scan
 
 export function Main() {
     const user = useSelector((state) => state.user);
     const theme = useSelector((state) => state.theme.value);
+    const location = useLocation();
     const dispatch = useDispatch();
-
-
 
     const toggleTheme = () => {
         dispatch(switchTheme());
     };
 
     useEffect(() => {
-        console.log(theme);
-    }, [theme]);
+        dispatch(setBreadcrumb(location.pathname));
+    }, []);
     //TODO aggiungere controllo su utente è loggato
 
     return (
@@ -41,17 +42,7 @@ export function Main() {
                                 <SidebarTrigger />
                                 <Separator orientation="vertical" className="h-4 mr-2" />
                                 {/* TODO: dinamiche breadcrumb */}
-                                <Breadcrumb>
-                                    <BreadcrumbList>
-                                        <BreadcrumbItem className="hidden md:block">
-                                            <BreadcrumbLink href="#">Dashboard</BreadcrumbLink>
-                                        </BreadcrumbItem>
-                                        <BreadcrumbSeparator className="hidden md:block" />
-                                        <BreadcrumbItem>
-                                            <BreadcrumbPage>Overview</BreadcrumbPage>
-                                        </BreadcrumbItem>
-                                    </BreadcrumbList>
-                                </Breadcrumb>
+                                <DynamicBreadcrumbs />
                             </div>
                             <div className="flex items-center space-x-3">
                                 <button
@@ -80,6 +71,37 @@ export function Main() {
                     <Outlet />
                 </SidebarInset>
             </SidebarProvider>
+        </>
+    );
+}
+
+function DynamicBreadcrumbs() {
+    const breadcrumbs = useSelector((state) => state.breadcrumb.value);
+    console.log(breadcrumbs);
+    const strings = breadcrumbs.split("/");
+    console.log(strings);
+    // String(val).charAt(0).toUpperCase() + String(val).slice(1)
+    return (
+        <>
+            <Breadcrumb>
+                <BreadcrumbList>
+                    {strings.map((s, i) => {
+                        if (s) {
+                            const url = strings.slice(0, i + 1).join("/");
+                            console.log(url);
+
+                            return (
+                                <>
+                                    <BreadcrumbItem className="hidden md:block">
+                                        <Link to={url}>{s.charAt(0).toUpperCase() + s.slice(1)}</Link>
+                                    </BreadcrumbItem>
+                                    <BreadcrumbSeparator className="hidden md:block" />
+                                </>
+                            );
+                        }
+                    })}
+                </BreadcrumbList>
+            </Breadcrumb>
         </>
     );
 }

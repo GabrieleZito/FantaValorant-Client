@@ -6,8 +6,16 @@ import { Button } from "../ui/button";
 import { Check, X } from "lucide-react";
 import { getTimeAgo } from "@/utils/timePassed";
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { useLocation } from "react-router";
+import { setBreadcrumb } from "@/redux/slices/breadcrumbSlice";
 
 export function Invites() {
+    const dispatch = useDispatch();
+    const location = useLocation();
+    useEffect(() => {
+        dispatch(setBreadcrumb(location.pathname));
+    }, []);
     const queryClient = useQueryClient();
     const getFriendRequests = useQuery({
         queryKey: ["friendRequests"],

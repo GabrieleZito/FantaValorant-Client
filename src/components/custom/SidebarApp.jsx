@@ -133,6 +133,21 @@ export function SidebarApp({ ...props }) {
 
             <SidebarContent>
                 <SidebarGroup>
+                    <SidebarGroupLabel>Navigation</SidebarGroupLabel>
+                    <SidebarGroupContent>
+                        <SidebarMenu>
+                            <SidebarMenuItem>
+                                <SidebarMenuButton asChild>
+                                    <Link to={"/dashboard"}>
+                                        <Users />
+                                        <span>Dashboard</span>
+                                    </Link>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+                        </SidebarMenu>
+                    </SidebarGroupContent>
+                </SidebarGroup>
+                <SidebarGroup>
                     <SidebarGroupLabel>Leaderboards</SidebarGroupLabel>
                     <SidebarGroupContent>
                         <SidebarMenu>
