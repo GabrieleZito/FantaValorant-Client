@@ -40,7 +40,7 @@ export function Friends() {
         queryKey: ["getFriends"],
         queryFn: userAPI.getFriends,
     });
-    console.log(getFriends.data);
+    //console.log(getFriends.data);
 
     return (
         <>

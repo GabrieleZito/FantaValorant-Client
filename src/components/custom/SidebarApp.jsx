@@ -1,4 +1,4 @@
-import { User, Settings, LogOut, Trophy, Users, ChevronDown, Crown, Medal, Award, Mail, UserPlus } from "lucide-react";
+import { User, Settings, LogOut, Trophy, Users, ChevronDown, Crown, Medal, Award, Mail, UserPlus, LayoutDashboard } from "lucide-react";
 
 import {
     Sidebar,
@@ -44,21 +44,17 @@ const leaderboardItems = [
     },
 ];
 
-const teamItems = [
+const leagueItems = [
     {
-        title: "My Teams",
+        title: "My Leagues",
         url: "#",
     },
     {
-        title: "Create Team",
-        url: "#",
+        title: "Create League",
+        url: "/dashboard/new-league",
     },
     {
-        title: "Team Invitations",
-        url: "#",
-    },
-    {
-        title: "Team Settings",
+        title: "League Settings",
         url: "#",
     },
 ];
@@ -139,7 +135,7 @@ export function SidebarApp({ ...props }) {
                             <SidebarMenuItem>
                                 <SidebarMenuButton asChild>
                                     <Link to={"/dashboard"}>
-                                        <Users />
+                                        <LayoutDashboard />
                                         <span>Dashboard</span>
                                     </Link>
                                 </SidebarMenuButton>
@@ -165,10 +161,10 @@ export function SidebarApp({ ...props }) {
                     </SidebarGroupContent>
                 </SidebarGroup>
                 <SidebarGroup>
-                    <SidebarGroupLabel>Teams</SidebarGroupLabel>
+                    <SidebarGroupLabel>Leagues</SidebarGroupLabel>
                     <SidebarGroupContent>
                         <SidebarMenu>
-                            {teamItems.map((item) => (
+                            {leagueItems.map((item) => (
                                 <SidebarMenuItem key={item.title}>
                                     <SidebarMenuButton asChild>
                                         <Link to={item.url}>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { get, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UserSchema } from "../../zod/UserSchema";
 import { useNavigate } from "react-router";
@@ -13,11 +13,11 @@ export function SignIn() {
 
     return (
         <>
-            <section className="flex w-full flex-col items-center justify-center bg-white/30">
-                <div className="mx-auto flex w-xl flex-col items-center justify-center px-6 py-8">
-                    <div className="w-full rounded-lg bg-white dark:border dark:border-gray-700 dark:bg-gray-800">
-                        <div className="space-y-4 p-6 sm:p-8 md:space-y-6">
-                            <h1 className="text-xl leading-tight font-bold tracking-tight text-gray-900 md:text-2xl dark:text-white">
+            <section className="flex flex-col items-center justify-center w-full bg-white/30">
+                <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto w-xl">
+                    <div className="w-full bg-white rounded-lg dark:border dark:border-gray-700 dark:bg-gray-800">
+                        <div className="p-6 space-y-4 sm:p-8 md:space-y-6">
+                            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                                 {isLogin ? "Sign in to your account" : "Create an account"}
                             </h1>
                             {isLogin ? <LoginForm setIsLogin={setIsLogin} /> : <RegisterForm setIsLogin={setIsLogin} />}
@@ -70,7 +70,7 @@ function LoginForm({ setIsLogin }) {
         <>
             <form onSubmit={handleSubmit(login)} className="space-y-4 md:space-y-6">
                 <div>
-                    <label htmlFor="email" className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                    <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                         Your email
                     </label>
                     <input
@@ -84,7 +84,7 @@ function LoginForm({ setIsLogin }) {
                     {errors.email ? <p className="mt-2 text-sm text-red-500"> {errors.email.message} </p> : ""}
                 </div>
                 <div>
-                    <label htmlFor="password" className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                    <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                         Password
                     </label>
                     <input
@@ -100,12 +100,12 @@ function LoginForm({ setIsLogin }) {
 
                 <div className="flex items-center justify-between">
                     <div className="flex items-start">
-                        <div className="flex h-5 items-center">
+                        <div className="flex items-center h-5">
                             <input
                                 id="remember"
                                 aria-describedby="remember"
                                 type="checkbox"
-                                className="h-4 w-4 rounded border border-gray-300 bg-gray-50 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800"
+                                className="w-4 h-4 border border-gray-300 rounded bg-gray-50 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800"
                                 required=""
                             />
                         </div>
@@ -187,7 +187,7 @@ function RegisterForm({ setIsLogin }) {
             <form onSubmit={handleSubmit(registerUser)} className="space-y-4 md:space-y-6" noValidate>
                 <div className="flex flex-row gap-2">
                     <div className="w-full">
-                        <label htmlFor="email" className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                        <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                             Name
                         </label>
                         <input
@@ -201,7 +201,7 @@ function RegisterForm({ setIsLogin }) {
                         {errors.firstName ? <p className="mt-2 text-sm text-red-500">{errors.firstName.message}</p> : ""}
                     </div>
                     <div className="w-full">
-                        <label htmlFor="email" className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                        <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                             Last Name
                         </label>
                         <input
@@ -216,7 +216,7 @@ function RegisterForm({ setIsLogin }) {
                     </div>
                 </div>
                 <div>
-                    <label htmlFor="email" className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                    <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                         Username
                     </label>
                     <input
@@ -231,7 +231,7 @@ function RegisterForm({ setIsLogin }) {
                 </div>
 
                 <div>
-                    <label htmlFor="email" className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                    <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                         Your email
                     </label>
                     <input
@@ -245,7 +245,7 @@ function RegisterForm({ setIsLogin }) {
                     {errors.email ? <p className="mt-2 text-sm text-red-500">{errors.email.message}</p> : ""}
                 </div>
                 <div>
-                    <label htmlFor="password" className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                    <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                         Password
                     </label>
                     <input
@@ -260,7 +260,7 @@ function RegisterForm({ setIsLogin }) {
                 </div>
 
                 <div>
-                    <label htmlFor="confirm-password" className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                    <label htmlFor="confirm-password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                         Confirm password
                     </label>
                     <input
@@ -274,19 +274,19 @@ function RegisterForm({ setIsLogin }) {
                     {errors.repeatPassword ? <p className="mt-2 text-sm text-red-500">{errors.repeatPassword.message}</p> : ""}
                 </div>
                 <div className="flex items-start">
-                    <div className="flex h-5 items-center">
+                    <div className="flex items-center h-5">
                         <input
                             id="terms"
                             aria-describedby="terms"
                             type="checkbox"
-                            className="h-4 w-4 rounded border border-gray-300 bg-gray-50 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800"
+                            className="w-4 h-4 border border-gray-300 rounded bg-gray-50 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800"
                             required
                         />
                     </div>
                     <div className="ml-3 text-sm">
                         <label htmlFor="terms" className="font-light text-gray-500 dark:text-gray-300">
                             I accept the{" "}
-                            <a className="text-primary-600 dark:text-primary-500 font-medium hover:underline" href="#">
+                            <a className="font-medium text-primary-600 dark:text-primary-500 hover:underline" href="#">
                                 Terms and Conditions
                             </a>
                         </label>

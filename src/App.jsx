@@ -8,6 +8,7 @@ import { Main } from "./components/custom/Main";
 import { Friends } from "./components/custom/Friends";
 import { Toaster } from "react-hot-toast";
 import { Invites } from "./components/custom/Invites";
+import { NewLeague } from "./components/custom/NewLeague";
 function App() {
     return (
         <>
@@ -21,6 +22,7 @@ function App() {
                         <Route index element={<Dashboard />} />
                         <Route path="friends" element={<Friends />} />
                         <Route path="invites" element={<Invites />} />
+                        <Route path="new-league" element={<NewLeague />} />
                     </Route>
                 </Routes>
             </BrowserRouter>

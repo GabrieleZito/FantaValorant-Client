@@ -91,12 +91,17 @@ function DynamicBreadcrumbs() {
                             console.log(url);
 
                             return (
-                                <>
+                                <React.Fragment key={i}>
                                     <BreadcrumbItem className="hidden md:block">
-                                        <Link to={url}>{s.charAt(0).toUpperCase() + s.slice(1)}</Link>
+                                        <Link to={url}>
+                                            {s
+                                                .split("-")
+                                                .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+                                                .join(" ")}
+                                        </Link>
                                     </BreadcrumbItem>
                                     <BreadcrumbSeparator className="hidden md:block" />
-                                </>
+                                </React.Fragment>
                             );
                         }
                     })}
