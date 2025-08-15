@@ -15,7 +15,7 @@ export function Friends() {
     const location = useLocation();
     const dispatch = useDispatch();
     dispatch(setBreadcrumb(location.pathname));
-    
+
     const sendRequest = useMutation({
         mutationFn: userAPI.friendRequest,
         mutationKey: ["friendRequest"],
@@ -39,6 +39,7 @@ export function Friends() {
     const getFriends = useQuery({
         queryKey: ["getFriends"],
         queryFn: userAPI.getFriends,
+        retry: false,
     });
     //console.log(getFriends.data);
 
@@ -67,9 +68,9 @@ export function Friends() {
                         </button>
                     </div>
                 </form>
-                <div>
-                    <p className="mt-2 text-2xl text-foreground">Your Friends</p>
-                    <div>
+                <div className="flex flex-col h-full">
+                    <p className="flex justify-center mt-2 text-2xl text-foreground">Your Friends</p>
+                    <div className="justify-center h-full tex-center">
                         {getFriends.data && getFriends.data.data && getFriends.data.data.length > 0 ? (
                             getFriends.data.data.map((f) => {
                                 let friend;
@@ -96,7 +97,7 @@ export function Friends() {
                                 );
                             })
                         ) : (
-                            <div className="text-foreground">You have no friends :)</div>
+                            <div className="flex justify-center h-full text-center text-foreground">You have no friends :)</div>
                         )}
                     </div>
                 </div>

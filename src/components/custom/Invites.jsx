@@ -77,7 +77,7 @@ export function Invites() {
                                 >
                                     <div className="flex items-center space-x-3">
                                         <Avatar className="w-10 h-10">
-                                            <AvatarImage src={f.propic || "/placeholder.svg"} alt={f.Sender.username} />
+                                            <AvatarImage src={f.Sender.propic} alt={f.Sender.username} />
                                             <AvatarFallback>{f.Sender.username.charAt(0)}</AvatarFallback>
                                         </Avatar>
                                         <div className="flex items-center">

@@ -1,8 +1,8 @@
+import { setToken, clearToken } from "@/redux/slices/authSlice";
+import store from "@/redux/store";
 import axios from "axios";
 const URL = import.meta.env.VITE_API_URL;
-const axiosConf = axios.create({
-    withCredentials: true,
-});
+import axiosConf from "./axiosConf";
 
 const friendRequest = async (data) => {
     const res = await axiosConf.post(`${URL}/users/friend-requests`, data);

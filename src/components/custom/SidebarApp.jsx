@@ -20,6 +20,7 @@ import { Link, useNavigate } from "react-router";
 import { useMutation } from "@tanstack/react-query";
 import { setUser } from "@/redux/slices/userSlice";
 import authAPI from "@/API/authAPI";
+import { setToken } from "@/redux/slices/authSlice";
 
 const leaderboardItems = [
     {
@@ -47,7 +48,7 @@ const leaderboardItems = [
 const leagueItems = [
     {
         title: "My Leagues",
-        url: "#",
+        url: "/dashboard/my-leagues",
     },
     {
         title: "Create League",
@@ -69,6 +70,7 @@ export function SidebarApp({ ...props }) {
         mutationKey: ["logout"],
         onSuccess: () => {
             dispatch(setUser({}));
+            dispatch(setToken(null))
             navigate("/");
         },
         onError: (err) => {

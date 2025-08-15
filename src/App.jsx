@@ -9,6 +9,8 @@ import { Friends } from "./components/custom/Friends";
 import { Toaster } from "react-hot-toast";
 import { Invites } from "./components/custom/Invites";
 import { NewLeague } from "./components/custom/NewLeague";
+import { MyLeagues } from "./components/custom/MyLeagues";
+
 function App() {
     return (
         <>
@@ -23,6 +25,7 @@ function App() {
                         <Route path="friends" element={<Friends />} />
                         <Route path="invites" element={<Invites />} />
                         <Route path="new-league" element={<NewLeague />} />
+                        <Route path="my-leagues" element={<MyLeagues />} />
                     </Route>
                 </Routes>
             </BrowserRouter>

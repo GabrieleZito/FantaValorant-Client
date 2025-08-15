@@ -12,6 +12,7 @@ import { setUser } from "../../redux/slices/userSlice";
 import { Sun, Moon } from "lucide-react";
 import { switchTheme } from "@/redux/slices/themeSlice";
 import { setBreadcrumb } from "@/redux/slices/breadcrumbSlice";
+import { ProtectedRoutes } from "./ProtectedRoutes";
 
 //TODO rifare i colori per la dark mode
 //TODO provare react-scan
@@ -29,7 +30,6 @@ export function Main() {
     useEffect(() => {
         dispatch(setBreadcrumb(location.pathname));
     }, []);
-    //TODO aggiungere controllo su utente è loggato
 
     return (
         <>
@@ -67,8 +67,7 @@ export function Main() {
                             </div>
                         </div>
                     </header>
-                    {/* TODO: BODY */}
-                    <Outlet />
+                    <ProtectedRoutes />
                 </SidebarInset>
             </SidebarProvider>
         </>
@@ -77,9 +76,9 @@ export function Main() {
 
 function DynamicBreadcrumbs() {
     const breadcrumbs = useSelector((state) => state.breadcrumb.value);
-    console.log(breadcrumbs);
+    //console.log(breadcrumbs);
     const strings = breadcrumbs.split("/");
-    console.log(strings);
+    //console.log(strings);
     // String(val).charAt(0).toUpperCase() + String(val).slice(1)
     return (
         <>
@@ -88,7 +87,7 @@ function DynamicBreadcrumbs() {
                     {strings.map((s, i) => {
                         if (s) {
                             const url = strings.slice(0, i + 1).join("/");
-                            console.log(url);
+                            //console.log(url);
 
                             return (
                                 <React.Fragment key={i}>

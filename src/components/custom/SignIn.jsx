@@ -7,9 +7,10 @@ import { useDispatch } from "react-redux";
 import { useMutation } from "@tanstack/react-query";
 import authAPI from "../../API/authAPI";
 import { setUser } from "../../redux/slices/userSlice";
+import { setToken } from "@/redux/slices/authSlice";
 
 export function SignIn() {
-    const [isLogin, setIsLogin] = useState(false);
+    const [isLogin, setIsLogin] = useState(true);
 
     return (
         <>
@@ -49,17 +50,22 @@ function LoginForm({ setIsLogin }) {
         mutationFn: authAPI.login,
         mutationKey: ["login"],
         onSuccess: (response) => {
+            //console.log(response);
             dispatch(setUser(response.data));
+            //console.log(response.accessToken);
+            dispatch(setToken(response.accessToken));
             navigate("/dashboard");
         },
         onError: (err) => {
-            console.log(err);
+            //console.log(err);
             setError("password", { message: "Wrong username or password" });
         },
         retry: false,
     });
 
     const login = () => {
+        console.log("ciao");
+
         sendLogin.mutate({
             email: getValues("email"),
             password: getValues("password"),
@@ -154,6 +160,7 @@ function RegisterForm({ setIsLogin }) {
             /* console.log("Response from registration");
             console.log(response); */
             dispatch(setUser(response.data));
+            dispatch(setToken(response.accessToken));
             navigate("/dashboard");
         },
         onError: (err) => {
