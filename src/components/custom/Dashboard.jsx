@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router";
 
 export function Dashboard() {
-    const user = useSelector((state) => state.user);
     const location = useLocation();
     const dispatch = useDispatch();
 

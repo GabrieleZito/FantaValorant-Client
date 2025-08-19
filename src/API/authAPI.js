@@ -76,11 +76,17 @@ const refresh = async () => {
     return res.data;
 };
 
+const me = async () => {
+    const res = await axiosConf.get(`${URL}/auth/me`);
+    return res.data;
+};
+
 const authAPI = {
     register,
     login,
     logout,
     refresh,
+    me,
 };
 
 export default authAPI;

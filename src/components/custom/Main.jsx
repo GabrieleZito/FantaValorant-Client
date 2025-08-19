@@ -67,7 +67,8 @@ export function Main() {
                             </div>
                         </div>
                     </header>
-                    <ProtectedRoutes />
+                    {/* <ProtectedRoutes /> */}
+                    <Outlet />
                 </SidebarInset>
             </SidebarProvider>
         </>

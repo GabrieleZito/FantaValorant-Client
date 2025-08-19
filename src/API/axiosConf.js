@@ -8,7 +8,7 @@ const axiosConf = axios.create({
 
 //include the Authorization header for every request
 axiosConf.interceptors.request.use((config) => {
-    const { accessToken } = store.getState().auth;
+    const { accessToken } = store.getState().auth.accessToken;
     if (accessToken) {
         config.headers.Authorization = `Bearer ${accessToken}`;
     }
@@ -24,7 +24,7 @@ axiosConf.interceptors.response.use(
     async (error) => {
         const originalRequest = error.config;
 
-        if (error.response?.status === 403 && !originalRequest._retry) {
+        if ((error.response?.status === 403 || error.response?.status === 401) && !originalRequest._retry) {
             originalRequest._retry = true;
 
             if (isRefreshing) {
@@ -41,7 +41,7 @@ axiosConf.interceptors.response.use(
             try {
                 const response = await axiosConf.get(`${URL}/auth/refresh`);
                 const { accessToken } = response.data;
-                console.log("nuovo access token_awdawd");
+                //console.log("nuovo access token_awdawd");
 
                 store.dispatch(setToken(accessToken));
                 originalRequest.headers.Authorization = `Bearer ${accessToken}`;

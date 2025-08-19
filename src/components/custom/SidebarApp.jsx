@@ -20,7 +20,7 @@ import { Link, useNavigate } from "react-router";
 import { useMutation } from "@tanstack/react-query";
 import { setUser } from "@/redux/slices/userSlice";
 import authAPI from "@/API/authAPI";
-import { setToken } from "@/redux/slices/authSlice";
+import { logoutSuccess, setToken } from "@/redux/slices/authSlice";
 
 const leaderboardItems = [
     {
@@ -61,7 +61,8 @@ const leagueItems = [
 ];
 
 export function SidebarApp({ ...props }) {
-    const user = useSelector((state) => state.user);
+    //const user = useSelector((state) => state.user);
+    const user = useSelector((state) => state.auth.user);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -69,9 +70,10 @@ export function SidebarApp({ ...props }) {
         mutationFn: authAPI.logout,
         mutationKey: ["logout"],
         onSuccess: () => {
-            dispatch(setUser({}));
-            dispatch(setToken(null))
+            //dispatch(setUser({}));
+            //dispatch(setToken(null));
             navigate("/");
+            dispatch(logoutSuccess());
         },
         onError: (err) => {
             console.log(err);
@@ -92,14 +94,14 @@ export function SidebarApp({ ...props }) {
                                     className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
                                 >
                                     <Avatar className="w-8 h-8 rounded-lg">
-                                        <AvatarImage src={user.propic || "/placeholder.svg"} alt={user.name} />
+                                        <AvatarImage src={user?.propic || "/placeholder.svg"} alt={user?.name} />
                                         <AvatarFallback className="rounded-lg">
-                                            {user.firstName?.charAt(0) || "" + "" + user.lastName?.charAt(0) || ""}
+                                            {user?.firstName?.charAt(0) || "" + "" + user?.lastName?.charAt(0) || ""}
                                         </AvatarFallback>
                                     </Avatar>
                                     <div className="grid flex-1 text-sm leading-tight text-left">
-                                        <span className="font-semibold truncate">{user.username}</span>
-                                        <span className="text-xs truncate">{user.email}</span>
+                                        <span className="font-semibold truncate">{user?.username}</span>
+                                        <span className="text-xs truncate">{user?.email}</span>
                                     </div>
                                     <ChevronDown className="ml-auto size-4" />
                                 </SidebarMenuButton>

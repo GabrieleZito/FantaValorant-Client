@@ -3,11 +3,11 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UserSchema } from "../../zod/UserSchema";
 import { useNavigate } from "react-router";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useMutation } from "@tanstack/react-query";
 import authAPI from "../../API/authAPI";
 import { setUser } from "../../redux/slices/userSlice";
-import { setToken } from "@/redux/slices/authSlice";
+import { loginError, loginStart, loginSuccess, setToken } from "@/redux/slices/authSlice";
 
 export function SignIn() {
     const [isLogin, setIsLogin] = useState(true);
@@ -33,6 +33,7 @@ export function SignIn() {
 function LoginForm({ setIsLogin }) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const { isLoading, error } = useSelector((state) => state.auth);
     const loginSchema = UserSchema.pick({
         email: true,
         password: true,
@@ -50,22 +51,23 @@ function LoginForm({ setIsLogin }) {
         mutationFn: authAPI.login,
         mutationKey: ["login"],
         onSuccess: (response) => {
-            //console.log(response);
-            dispatch(setUser(response.data));
-            //console.log(response.accessToken);
-            dispatch(setToken(response.accessToken));
+            //dispatch(setUser(response.data));
+            //dispatch(setToken(response.data.accessToken));
+            console.log(response);
+            dispatch(loginSuccess(response.data));
             navigate("/dashboard");
         },
         onError: (err) => {
-            //console.log(err);
+            console.log(err);
+            dispatch(loginError("Wrong username or password"));
             setError("password", { message: "Wrong username or password" });
         },
         retry: false,
     });
 
     const login = () => {
-        console.log("ciao");
-
+        dispatch(loginStart());
+        console.log("LOGIN");
         sendLogin.mutate({
             email: getValues("email"),
             password: getValues("password"),
@@ -126,8 +128,11 @@ function LoginForm({ setIsLogin }) {
                     </a>
                 </div>
 
-                <button className="w-full rounded-lg bg-red-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:cursor-pointer hover:bg-red-600 focus:ring-4 focus:ring-neutral-300 focus:outline-none dark:bg-neutral-600 dark:hover:bg-neutral-700 dark:focus:ring-neutral-800">
-                    Sign In
+                <button
+                    /* disabled={isLoading} */
+                    className="w-full rounded-lg bg-red-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:cursor-pointer hover:bg-red-600 focus:ring-4 focus:ring-neutral-300 focus:outline-none dark:bg-neutral-600 dark:hover:bg-neutral-700 dark:focus:ring-neutral-800"
+                >
+                    {isLoading ? "Signing In..." : "Sign In"}
                 </button>
 
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
@@ -145,6 +150,7 @@ function RegisterForm({ setIsLogin }) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const registerSchema = UserSchema;
+    const { isLoading, error } = useSelector((state) => state.auth);
     const {
         register,
         handleSubmit,
@@ -157,22 +163,16 @@ function RegisterForm({ setIsLogin }) {
         mutationFn: authAPI.register,
         mutationKey: ["registration"],
         onSuccess: (response) => {
-            /* console.log("Response from registration");
-            console.log(response); */
-            dispatch(setUser(response.data));
-            dispatch(setToken(response.accessToken));
+            //dispatch(setUser(response.data));
+            //dispatch(setToken(response.accessToken));
+            dispatch(loginSuccess(response));
             navigate("/dashboard");
         },
         onError: (err) => {
             const field = err.response.data.data.field;
             const message = err.response.data.message;
             console.log(message);
-            // messaggi di errore di sequelize
-            /* const error = err.response.data.message.errors[0].message;
-            const fieldObj = err.response.data.message.fields;
-            const field = Object.keys(fieldObj)[0];
-            console.log("Error: " + error);
-            console.log("Field: " + field); */
+            dispatch(loginError(message));
             setError(field, { message: message });
         },
         retry: false,
@@ -180,6 +180,7 @@ function RegisterForm({ setIsLogin }) {
 
     const registerUser = () => {
         //console.log("Register");
+        dispatch(loginStart);
         sendRegistration.mutate({
             firstName: getValues("firstName"),
             lastName: getValues("lastName"),
@@ -300,8 +301,11 @@ function RegisterForm({ setIsLogin }) {
                     </div>
                 </div>
 
-                <button className="w-full rounded-lg bg-red-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:cursor-pointer hover:bg-red-600 focus:ring-4 focus:ring-neutral-300 focus:outline-none dark:bg-neutral-600 dark:hover:bg-neutral-700 dark:focus:ring-neutral-800">
-                    Create an account
+                <button
+                    disabled={isLoading}
+                    className="w-full rounded-lg bg-red-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:cursor-pointer hover:bg-red-600 focus:ring-4 focus:ring-neutral-300 focus:outline-none dark:bg-neutral-600 dark:hover:bg-neutral-700 dark:focus:ring-neutral-800"
+                >
+                    {isLoading ? "Creating Account..." : "Create an account"}
                 </button>
 
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">

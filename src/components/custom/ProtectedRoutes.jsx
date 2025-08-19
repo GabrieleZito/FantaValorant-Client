@@ -1,8 +1,21 @@
 import { useSelector } from "react-redux";
-import { Navigate, Outlet } from "react-router";
+import { Navigate } from "react-router";
 
-export function ProtectedRoutes() {
-    const auth = useSelector((state) => state.auth);
+/* export function ProtectedRoutes({ children }) {
+    const { isAuthenticated } = useSelector((state) => state.auth);
 
-    return auth.accessToken ? <Outlet /> : <Navigate to="/sign-in" />;
-}
+    if (!isAuthenticated) {
+        return <Navigate to="/sign-in" replace />;
+    }
+
+    return children;
+} */
+export function ProtectedRoutes({ children }) {
+    const { isAuthenticated } = useSelector((state) => state.auth);
+
+    if (!isAuthenticated) {
+        return <Navigate to="/sign-in" replace />;
+    }
+
+    return children;
+} 
