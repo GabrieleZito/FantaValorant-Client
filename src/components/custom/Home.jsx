@@ -1,3 +1,4 @@
+import authAPI from "@/API/authAPI";
 import { Link } from "react-router";
 
 //TODO fix mobile view
@@ -10,7 +11,13 @@ export function Home() {
                         START YOUR LEAGUE
                     </button>
                 </Link>
-                <button className="px-8 py-3 text-xl tracking-wider text-white transition-colors bg-red-500 border shadow-sm font-valorant w-xl border-white/30 hover:bg-red-600">
+                <button
+                    onClick={async () => {
+                        const response2 = await authAPI.prova();
+                        console.log(response2);
+                    }}
+                    className="px-8 py-3 text-xl tracking-wider text-white transition-colors bg-red-500 border shadow-sm font-valorant w-xl border-white/30 hover:bg-red-600"
+                >
                     HOW IT WORKS
                 </button>
             </div>

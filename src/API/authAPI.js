@@ -1,7 +1,7 @@
 import { setToken } from "@/redux/slices/authSlice";
 import store from "@/redux/store";
 import axios from "axios";
-const URL = import.meta.env.VITE_API_URL;
+const URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 const axiosConf = axios.create({
     withCredentials: true,
 });
@@ -70,6 +70,9 @@ const logout = async () => {
 
 const refresh = async () => {
     const res = await axiosConf.get(`${URL}/auth/refresh`);
+    console.log("REFRESH");
+    console.log(res.data);
+
     if (res.data.accessToken) {
         store.dispatch(setToken(res.data.accessToken));
     }
@@ -77,7 +80,12 @@ const refresh = async () => {
 };
 
 const me = async () => {
-    const res = await axiosConf.get(`${URL}/auth/me`);
+    const res = await axios.get(`${URL}/auth/me`, { withCredentials: true });
+    return res.data;
+};
+
+const prova = async () => {
+    const res = await axios.get(`${URL}/prova`, { withCredentials: true });
     return res.data;
 };
 
@@ -87,6 +95,7 @@ const authAPI = {
     logout,
     refresh,
     me,
+    prova,
 };
 
 export default authAPI;

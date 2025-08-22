@@ -8,7 +8,7 @@ const axiosConf = axios.create({
 
 //include the Authorization header for every request
 axiosConf.interceptors.request.use((config) => {
-    const { accessToken } = store.getState().auth.accessToken;
+    const { accessToken } = store.getState().auth;
     if (accessToken) {
         config.headers.Authorization = `Bearer ${accessToken}`;
     }

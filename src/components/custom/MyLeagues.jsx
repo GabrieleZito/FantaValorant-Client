@@ -29,13 +29,19 @@ export function MyLeagues() {
                                     <p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">Name</p>
                                 </th>
                                 <th className="p-4 border-blue-gray-100 bg-blue-gray-50/50 border-y">
-                                    <p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">Function</p>
+                                    <p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+                                        Function
+                                    </p>
                                 </th>
                                 <th className="p-4 border-blue-gray-100 bg-blue-gray-50/50 border-y">
-                                    <p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">Status</p>
+                                    <p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+                                        Status
+                                    </p>
                                 </th>
                                 <th className="p-4 border-blue-gray-100 bg-blue-gray-50/50 border-y">
-                                    <p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">Employed</p>
+                                    <p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+                                        Employed
+                                    </p>
                                 </th>
                                 <th className="p-4 border-blue-gray-100 bg-blue-gray-50/50 border-y">
                                     <p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70"></p>
@@ -44,10 +50,10 @@ export function MyLeagues() {
                         </thead>
                         <tbody>
                             {getUserLeagues.data && getUserLeagues.data.data && getUserLeagues.data.data.length > 0
-                                ? getUserLeagues.data.data.map((l) => {
+                                ? getUserLeagues.data.data.map((l, i) => {
                                       return (
                                           <>
-                                              <tr>
+                                              <tr key={i}>
                                                   <td className="p-4 border-b border-blue-gray-50">
                                                       <div className="flex items-center gap-3">{l.name}</div>
                                                   </td>
@@ -66,7 +72,7 @@ export function MyLeagues() {
                                           </>
                                       );
                                   })
-                                : "CIAO"}
+                                : ""}
                         </tbody>
                     </table>
                 </div>

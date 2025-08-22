@@ -23,18 +23,19 @@ function App() {
     const { isLoading } = useSelector((state) => state.auth);
     useEffect(() => {
         const checkAuth = async () => {
-            console.log("DENTRO checkAUTH");
+            //console.log("DENTRO checkAUTH");
 
-            const response = await authAPI.me();
-            console.log(response);
-            if (response.success) {
-                dispatch(loginSuccess(response.data));
-            } else {
-                dispatch(loginError(""));
-            }
             try {
+                const response = await authAPI.me();
+
+                if (response.success) {
+                    dispatch(loginSuccess(response.data));
+                } else {
+                    //console.error("dentro login error");
+                    dispatch(loginError(""));
+                }
             } catch (error) {
-                console.error("Error in check Auth: ", error);
+                //console.error("Error in check Auth: ", error);
                 dispatch(loginError("Errore"));
                 dispatch(clearToken());
             }

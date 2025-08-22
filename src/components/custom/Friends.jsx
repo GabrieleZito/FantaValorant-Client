@@ -1,5 +1,5 @@
 import { Search } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import toast, { ToastBar, Toaster } from "react-hot-toast";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -14,7 +14,9 @@ export function Friends() {
     const [search, setSearch] = useState("");
     const location = useLocation();
     const dispatch = useDispatch();
-    dispatch(setBreadcrumb(location.pathname));
+    useEffect(() => {
+        dispatch(setBreadcrumb(location.pathname));
+    }, []);
 
     const sendRequest = useMutation({
         mutationFn: userAPI.friendRequest,

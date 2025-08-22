@@ -146,6 +146,7 @@ function LoginForm({ setIsLogin }) {
     );
 }
 
+//TODO la prima volta quando ti registri, non vengono salvati i dati dell'utente
 function RegisterForm({ setIsLogin }) {
     const navigate = useNavigate();
     const dispatch = useDispatch();

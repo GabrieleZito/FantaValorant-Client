@@ -1,4 +1,5 @@
 const URL = import.meta.env.VITE_API_URL;
+import store from "@/redux/store";
 import axiosConf from "./axiosConf";
 
 const friendRequest = async (data) => {
