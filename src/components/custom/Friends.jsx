@@ -1,5 +1,5 @@
 import { Search } from "lucide-react";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import toast, { ToastBar, Toaster } from "react-hot-toast";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -7,16 +7,15 @@ import userAPI from "@/API/userAPI";
 import { Avatar, AvatarImage, AvatarFallback } from "../ui/avatar";
 import { getTimeAgo } from "@/utils/timePassed";
 import { useLocation } from "react-router";
-import { setBreadcrumb } from "@/redux/slices/breadcrumbSlice";
+import { useBreadcrumb } from "@/hooks/useBreadcrumb";
 
 export function Friends() {
     const user = useSelector((state) => state.user);
     const [search, setSearch] = useState("");
     const location = useLocation();
     const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(setBreadcrumb(location.pathname));
-    }, []);
+    useBreadcrumb(dispatch, location.pathname);
+
 
     const sendRequest = useMutation({
         mutationFn: userAPI.friendRequest,

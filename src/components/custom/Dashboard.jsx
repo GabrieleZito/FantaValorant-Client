@@ -1,20 +1,17 @@
-import { setBreadcrumb } from "@/redux/slices/breadcrumbSlice";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useBreadcrumb } from "@/hooks/useBreadcrumb";
+import { useDispatch } from "react-redux";
 import { useLocation } from "react-router";
 
 export function Dashboard() {
     const location = useLocation();
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        dispatch(setBreadcrumb(location.pathname));
-    }, []);
+    useBreadcrumb(dispatch, location.pathname);
 
     return (
         <>
-            <div className="flex flex-col flex-1 gap-4 p-4">
-                <div className="grid gap-4 auto-rows-min md:grid-cols-3">
+            <div className="flex flex-1 flex-col gap-4 p-4">
+                <div className="grid auto-rows-min gap-4 md:grid-cols-3">
                     <div className="aspect-video rounded-xl bg-blue-200/50" />
                     <div className="aspect-video rounded-xl bg-blue-200/50" />
                     <div className="aspect-video rounded-xl bg-blue-200/50" />

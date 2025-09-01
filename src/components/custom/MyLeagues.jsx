@@ -1,16 +1,13 @@
 import leaguesAPI from "@/API/leaguesAPI";
-import { setBreadcrumb } from "@/redux/slices/breadcrumbSlice";
+import { useBreadcrumb } from "@/hooks/useBreadcrumb";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation } from "react-router";
 
 export function MyLeagues() {
     const location = useLocation();
     const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(setBreadcrumb(location.pathname));
-    }, []);
+    useBreadcrumb(dispatch, location.pathname);
 
     const getUserLeagues = useQuery({
         queryKey: ["userLeagues"],

@@ -1,6 +1,5 @@
 import userAPI from "@/API/userAPI";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect } from "react";
 import { Avatar, AvatarImage, AvatarFallback } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { Check, X } from "lucide-react";
@@ -8,14 +7,13 @@ import { getTimeAgo } from "@/utils/timePassed";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { useLocation } from "react-router";
-import { setBreadcrumb } from "@/redux/slices/breadcrumbSlice";
+import { useBreadcrumb } from "@/hooks/useBreadcrumb";
 
 export function Invites() {
     const dispatch = useDispatch();
     const location = useLocation();
-    useEffect(() => {
-        dispatch(setBreadcrumb(location.pathname));
-    }, []);
+    useBreadcrumb(dispatch, location.pathname);
+
     const queryClient = useQueryClient();
     const getFriendRequests = useQuery({
         queryKey: ["friendRequests"],

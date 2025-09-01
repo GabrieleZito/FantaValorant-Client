@@ -6,8 +6,7 @@ import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { useMutation } from "@tanstack/react-query";
 import authAPI from "../../API/authAPI";
-import { setUser } from "../../redux/slices/userSlice";
-import { loginError, loginStart, loginSuccess, setToken } from "@/redux/slices/authSlice";
+import { loginError, loginStart, loginSuccess } from "@/redux/slices/authSlice";
 
 export function SignIn() {
     const [isLogin, setIsLogin] = useState(true);
@@ -181,7 +180,7 @@ function RegisterForm({ setIsLogin }) {
 
     const registerUser = () => {
         //console.log("Register");
-        dispatch(loginStart);
+        dispatch(loginStart());
         sendRegistration.mutate({
             firstName: getValues("firstName"),
             lastName: getValues("lastName"),

@@ -1,5 +1,4 @@
 import { User, Settings, LogOut, Trophy, Users, ChevronDown, Crown, Medal, Award, Mail, UserPlus, LayoutDashboard } from "lucide-react";
-
 import {
     Sidebar,
     SidebarContent,

@@ -1,35 +1,32 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { SidebarApp } from "@/components/custom/SidebarApp";
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Separator } from "@/components/ui/separator";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { ChevronDownIcon, ArrowLeftStartOnRectangleIcon } from "@heroicons/react/24/outline";
-import { Link, Outlet, useLocation, useNavigate } from "react-router";
+import { Link, Outlet, useLocation } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { useMutation } from "@tanstack/react-query";
-import userAPI from "../../API/authAPI";
-import { setUser } from "../../redux/slices/userSlice";
 import { Sun, Moon } from "lucide-react";
 import { switchTheme } from "@/redux/slices/themeSlice";
-import { setBreadcrumb } from "@/redux/slices/breadcrumbSlice";
-import { ProtectedRoutes } from "./ProtectedRoutes";
+import { socket } from "@/utils/socket";
+import { useBreadcrumb } from "@/hooks/useBreadcrumb";
 
 //TODO rifare i colori per la dark mode
 //TODO provare react-scan
 
 export function Main() {
-    const user = useSelector((state) => state.user);
     const theme = useSelector((state) => state.theme.value);
     const location = useLocation();
     const dispatch = useDispatch();
+    useBreadcrumb(dispatch, location.pathname);
 
     const toggleTheme = () => {
         dispatch(switchTheme());
     };
 
     useEffect(() => {
-        dispatch(setBreadcrumb(location.pathname));
-    }, []);
+        socket.connect();
+        return () => socket.disconnect();
+    }, [socket]);
 
     return (
         <>
@@ -77,10 +74,8 @@ export function Main() {
 
 function DynamicBreadcrumbs() {
     const breadcrumbs = useSelector((state) => state.breadcrumb.value);
-    //console.log(breadcrumbs);
     const strings = breadcrumbs.split("/");
-    //console.log(strings);
-    // String(val).charAt(0).toUpperCase() + String(val).slice(1)
+
     return (
         <>
             <Breadcrumb>
