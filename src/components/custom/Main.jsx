@@ -15,29 +15,39 @@ import { useBreadcrumb } from "@/hooks/useBreadcrumb";
 
 export function Main() {
     const theme = useSelector((state) => state.theme.value);
+    const user = useSelector((state) => state.auth.user);
     const location = useLocation();
     const dispatch = useDispatch();
     useBreadcrumb(dispatch, location.pathname);
 
+    useEffect(() => {
+        socket.connect();
+        socket.emit("user:register", { userId: user.id, username: user.username });
+        return () => socket.disconnect();
+    }, [socket]);
+
+    useEffect(() => {
+        socket.on("user:registered", (data) => {
+            if (data.success) {
+                console.log("SUCCESS");
+            }
+        });
+    }, [socket]);
+
     const toggleTheme = () => {
         dispatch(switchTheme());
     };
-
-    useEffect(() => {
-        socket.connect();
-        return () => socket.disconnect();
-    }, [socket]);
 
     return (
         <>
             <SidebarProvider className={`${theme ? "dark" : ""}`}>
                 <SidebarApp />
                 <SidebarInset>
-                    <header className="flex items-center h-16 gap-2 border-b shrink-0">
-                        <div className="flex flex-row items-center justify-between w-full gap-2 px-3">
+                    <header className="flex h-16 shrink-0 items-center gap-2 border-b">
+                        <div className="flex w-full flex-row items-center justify-between gap-2 px-3">
                             <div className="flex items-center">
                                 <SidebarTrigger />
-                                <Separator orientation="vertical" className="h-4 mr-2" />
+                                <Separator orientation="vertical" className="mr-2 h-4" />
                                 {/* TODO: dinamiche breadcrumb */}
                                 <DynamicBreadcrumbs />
                             </div>
@@ -58,7 +68,7 @@ export function Main() {
                                     <span
                                         className={`z-10 inline-flex h-6 w-6 transform items-center justify-center rounded-full bg-white shadow-lg transition-all duration-200 ease-in-out ${theme ? "translate-x-9" : "translate-x-1"} `}
                                     >
-                                        {theme ? <Moon className="w-3 h-3 text-indigo-600" /> : <Sun className="w-3 h-3 text-yellow-600" />}
+                                        {theme ? <Moon className="h-3 w-3 text-indigo-600" /> : <Sun className="h-3 w-3 text-yellow-600" />}
                                     </span>
                                 </button>
                             </div>

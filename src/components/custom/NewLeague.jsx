@@ -39,6 +39,7 @@ export function NewLeague() {
             participationFee: 0,
             coinsPerUser: 100,
             isPublic: true,
+            teamname: "",
         },
     });
     const isPublic = watch("isPublic");
@@ -61,6 +62,7 @@ export function NewLeague() {
             isPublic: getValues("isPublic"),
             participationFee: parseInt(getValues("participationFee")),
             tournament: getValues("tournament"),
+            teamname: getValues("teamname"),
         });
     }
 
@@ -85,11 +87,11 @@ export function NewLeague() {
                     {...register("name")}
                 />
                 {errors.name && (
-                    <p id="name-error" className="text-destructive text-sm">
+                    <p id="name-error" className="text-sm text-destructive">
                         {errors.name.message}
                     </p>
                 )}
-                <p className="text-muted-foreground text-sm">This will be visible to participants.</p>
+                <p className="text-sm text-muted-foreground">This will be visible to participants.</p>
             </div>
 
             {/* Participation Fee */}
@@ -97,7 +99,7 @@ export function NewLeague() {
                 <Label htmlFor="participationFee">Participation fee</Label>
                 <div className="relative">
                     <span className={"text-muted-foreground pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"} aria-hidden="true">
-                        <DollarSign className="h-4 w-4" />
+                        <DollarSign className="w-4 h-4" />
                     </span>
                     <Input
                         id="participationFee"
@@ -113,19 +115,19 @@ export function NewLeague() {
                     />
                 </div>
                 {errors.participationFee && (
-                    <p id="fee-error" className="text-destructive text-sm">
+                    <p id="fee-error" className="text-sm text-destructive">
                         {errors.participationFee.message}
                     </p>
                 )}
-                <p className="text-muted-foreground text-sm">Set to 0 if the leaderboard is free to join.</p>
+                <p className="text-sm text-muted-foreground">Set to 0 if the leaderboard is free to join.</p>
             </div>
 
             {/* Coins per user */}
             <div className="grid gap-2">
                 <Label htmlFor="coinsPerUser">Number of coins per user</Label>
                 <div className="relative">
-                    <span className="text-muted-foreground pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3" aria-hidden="true">
-                        <Coins className="h-4 w-4" />
+                    <span className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-muted-foreground" aria-hidden="true">
+                        <Coins className="w-4 h-4" />
                     </span>
                     <Input
                         id="coinsPerUser"
@@ -141,20 +143,20 @@ export function NewLeague() {
                     />
                 </div>
                 {errors.coinsPerUser && (
-                    <p id="coins-error" className="text-destructive text-sm">
+                    <p id="coins-error" className="text-sm text-destructive">
                         {errors.coinsPerUser.message}
                     </p>
                 )}
-                <p className="text-muted-foreground text-sm">How many coins each participant starts with.</p>
+                <p className="text-sm text-muted-foreground">How many coins each participant starts with.</p>
             </div>
 
             {/* Visibility */}
             <div className="grid gap-2">
                 <Label>Visibility</Label>
-                <div className="flex items-center justify-between rounded-md border p-3">
+                <div className="flex items-center justify-between p-3 border rounded-md">
                     <div className="space-y-1">
                         <p className="font-medium">{isPublic ? "Public" : "Private"}</p>
-                        <p className="text-muted-foreground text-sm">
+                        <p className="text-sm text-muted-foreground">
                             {isPublic ? "Anyone with the link can view and join if allowed." : "Only invited users can view and join."}
                         </p>
                     </div>
@@ -164,7 +166,7 @@ export function NewLeague() {
                         render={({ field }) => (
                             <div className="flex items-center gap-2">
                                 <Switch id="visibility" checked={field.value} onCheckedChange={field.onChange} aria-label="Toggle visibility" />
-                                {field.value ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
+                                {field.value ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
                             </div>
                         )}
                     />
@@ -197,13 +199,31 @@ export function NewLeague() {
                     )}
                 />
                 {errors.tournament && (
-                    <p id="tournament-error" className="text-destructive text-sm">
+                    <p id="tournament-error" className="text-sm text-destructive">
                         {errors.tournament.message}
                     </p>
                 )}
-                <p className="text-muted-foreground text-sm">Choose the type of competition or activity.</p>
+                <p className="text-sm text-muted-foreground">Choose the type of competition or activity.</p>
             </div>
-            <img src="http://localhost:3000/public/images/tournaments/VCT_China_EVO_allmode.png" />
+
+            {/* Team Name */}
+            <div className="grid gap-2">
+                <Label htmlFor="teamname">Name your team</Label>
+                <Input
+                    id="teamname"
+                    placeholder="e.g., Summer Hackathon 2025"
+                    autoComplete="off"
+                    aria-invalid={!!errors.teamname}
+                    aria-describedby={errors.teamname ? "teamname-error" : undefined}
+                    {...register("teamname")}
+                />
+                {errors.teamname && (
+                    <p id="teamname-error" className="text-sm text-destructive">
+                        {errors.teamname.message}
+                    </p>
+                )}
+                <p className="text-sm text-muted-foreground">This will be visible to participants.</p>
+            </div>
         </CardContent>
     );
 
@@ -212,7 +232,7 @@ export function NewLeague() {
             <div className="py-6">
                 <CardHeader className="mb-4">
                     <CardTitle className="flex items-center gap-2">
-                        <Trophy className="h-5 w-5" />
+                        <Trophy className="w-5 h-5" />
                         Create Leaderboard
                     </CardTitle>
                     <CardDescription>Set the basic details for your leaderboard.</CardDescription>
@@ -221,7 +241,7 @@ export function NewLeague() {
                 <form onSubmit={handleSubmit(onSubmit)} noValidate>
                     {isNext ? Page2 : Page1}
 
-                    <CardFooter className="mt-3 flex items-center justify-between gap-2">
+                    <CardFooter className="flex items-center justify-between gap-2 mt-3">
                         <Button type="button" variant="outline" onClick={() => reset()} disabled={isSubmitting}>
                             Reset
                         </Button>
