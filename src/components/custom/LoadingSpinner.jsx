@@ -8,3 +8,12 @@ export function LoadingSpinner() {
         </div>
     );
 }
+
+export function LoadingSpinnerMini() {
+    return (
+        <div className="flex flex-col items-center justify-center w-full h-full space-y-4">
+            <div className="w-12 h-12 border-b-2 border-red-500 rounded-full animate-spin"></div>
+            <p className="text-gray-600 dark:text-gray-300">Loading...</p>
+        </div>
+    );
+}

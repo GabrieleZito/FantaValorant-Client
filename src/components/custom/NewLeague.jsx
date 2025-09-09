@@ -11,7 +11,7 @@ import { Label } from "../ui/label";
 import { Button } from "../ui/button";
 import { Switch } from "../ui/switch";
 import toast from "react-hot-toast";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import leaguesAPI from "@/API/leaguesAPI";
 import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "../ui/select";
 import { useBreadcrumb } from "@/hooks/useBreadcrumb";
@@ -43,6 +43,10 @@ export function NewLeague() {
         },
     });
     const isPublic = watch("isPublic");
+    
+    const getSeries = useQuery({
+        
+    })
 
     const createLeaderboard = useMutation({
         mutationFn: leaguesAPI.createLeague,
