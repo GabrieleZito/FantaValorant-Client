@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { LeagueSchema } from "@/zod/LeagueSchema";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "../ui/card";
 import { Trophy, Coins, Eye, EyeOff, DollarSign } from "lucide-react";
@@ -15,10 +15,12 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import leaguesAPI from "@/API/leaguesAPI";
 import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "../ui/select";
 import { useBreadcrumb } from "@/hooks/useBreadcrumb";
+import tournamentsAPI from "@/API/tournamentsAPI";
 
 export function NewLeague() {
     const dispatch = useDispatch();
     const location = useLocation();
+    const navigate = useNavigate();
     const [isNext, setIsNext] = useState(false);
     useBreadcrumb(dispatch, location.pathname);
 
@@ -43,19 +45,27 @@ export function NewLeague() {
         },
     });
     const isPublic = watch("isPublic");
-    
-    const getSeries = useQuery({
-        
-    })
 
+    const getSeries = useQuery({
+        queryKey: ["getSeries"],
+        queryFn: tournamentsAPI.getSeries,
+    });
+
+    //console.log(getSeries.data.data);
     const createLeaderboard = useMutation({
         mutationFn: leaguesAPI.createLeague,
         mutationKey: ["createLeague"],
         onSuccess: (data) => {
+            toast.success("League created", {
+                position: "top-center",
+            });
             console.log(data);
+            navigate(`/dashboard/my-leagues/${data.data.name}-${data.data.isPublic ? "pub" : "priv"}`);
         },
         onError: (data) => {
-            console.log(data);
+            toast.error(data.response.data.message, {
+                position: "top-center",
+            });
         },
     });
 
@@ -196,9 +206,7 @@ export function NewLeague() {
                             >
                                 <SelectValue placeholder="Select a tournament" />
                             </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="all">VCT 2025 (All season)</SelectItem>
-                            </SelectContent>
+                            <SelectSeries series={getSeries} />
                         </Select>
                     )}
                 />
@@ -271,5 +279,32 @@ export function NewLeague() {
                 </form>
             </div>
         </>
+    );
+}
+
+function SelectSeries({ series }) {
+    if (series.isError) {
+        return <div>Error</div>;
+    }
+
+    if (series.isLoading) {
+        return <div>Loading</div>;
+    }
+
+    //console.log(series.data.data);
+
+    return (
+        <SelectContent>
+            {series.data.data.map((s) => {
+                if (s) {
+                    return (
+                        <SelectItem key={s} value={s}>
+                            {s.replaceAll("_", " ")}
+                        </SelectItem>
+                    );
+                }
+            })}
+            {/* <SelectItem value="all">VCT 2025 (All season)</SelectItem> */}
+        </SelectContent>
     );
 }

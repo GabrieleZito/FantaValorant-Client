@@ -11,9 +11,15 @@ const getUserLeagues = async () => {
     return res.data;
 };
 
+const getLeagueDetails = async (name) => {
+    const res = await axiosConf.get(`${URL}/leagues/${name}`);
+    return res.data;
+};
+
 const leaguesAPI = {
     createLeague,
     getUserLeagues,
+    getLeagueDetails,
 };
 
 export default leaguesAPI;

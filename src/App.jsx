@@ -17,6 +17,7 @@ import authAPI from "./API/authAPI";
 import { PublicRoutes } from "./components/custom/PublicRoutes";
 import { ProtectedRoutes } from "./components/custom/ProtectedRoutes";
 import { LoadingSpinner } from "./components/custom/LoadingSpinner";
+import { LeagueDetails } from "./components/custom/LeagueDetails";
 
 function App() {
     const dispatch = useDispatch();
@@ -61,6 +62,7 @@ function App() {
                         <Route index element={<Home />} />
                         <Route path="sign-in" element={<SignIn />} />
                     </Route>
+
                     <Route
                         path="/dashboard"
                         element={
@@ -74,6 +76,7 @@ function App() {
                         <Route path="invites" element={<Invites />} />
                         <Route path="new-league" element={<NewLeague />} />
                         <Route path="my-leagues" element={<MyLeagues />} />
+                        <Route path="my-leagues/:leaguename" element={<LeagueDetails/>} />
                     </Route>
                 </Routes>
             </BrowserRouter>

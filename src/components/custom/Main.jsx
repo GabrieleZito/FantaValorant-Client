@@ -27,11 +27,7 @@ export function Main() {
     }, [socket]);
 
     useEffect(() => {
-        socket.on("user:registered", (data) => {
-            if (data.success) {
-                console.log("SUCCESS");
-            }
-        });
+        socket.on("user:registered", (data) => {});
     }, [socket]);
 
     const toggleTheme = () => {
@@ -84,7 +80,7 @@ export function Main() {
 
 function DynamicBreadcrumbs() {
     const breadcrumbs = useSelector((state) => state.breadcrumb.value);
-    const strings = breadcrumbs.split("/");
+    const strings = breadcrumbs.replaceAll("%20", " ").split("/");
 
     return (
         <>

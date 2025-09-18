@@ -6,8 +6,14 @@ const getNextTournaments = async () => {
     return res.data;
 };
 
+const getSeries = async () => {
+    const res = await axiosConf.get(`${URL}/tournaments/series`);
+    return res.data;
+};
+
 const tournamentsAPI = {
     getNextTournaments,
+    getSeries,
 };
 
 export default tournamentsAPI;

@@ -2,7 +2,7 @@ import leaguesAPI from "@/API/leaguesAPI";
 import { useBreadcrumb } from "@/hooks/useBreadcrumb";
 import { useQuery } from "@tanstack/react-query";
 import { useDispatch } from "react-redux";
-import { useLocation } from "react-router";
+import { Link, useLocation } from "react-router";
 
 export function MyLeagues() {
     const location = useLocation();
@@ -46,30 +46,32 @@ export function MyLeagues() {
                             </tr>
                         </thead>
                         <tbody>
-                            {getUserLeagues.data && getUserLeagues.data.data && getUserLeagues.data.data.length > 0
-                                ? getUserLeagues.data.data.map((l, i) => {
-                                      return (
-                                          <>
-                                              <tr key={i}>
-                                                  <td className="p-4 border-b border-blue-gray-50">
-                                                      <div className="flex items-center gap-3">{l.name}</div>
-                                                  </td>
-                                                  <td className="p-4 border-b border-blue-gray-50">FIELD 1</td>
-                                                  <td className="p-4 border-b border-blue-gray-50">FIELD 2</td>
-                                                  <td className="p-4 border-b border-blue-gray-50">FIELD 3</td>
-                                                  <td className="p-4 border-b border-blue-gray-50">
-                                                      <button
-                                                          className="relative h-10 max-h-[40px] w-10 max-w-[40px] rounded-lg text-center align-middle font-sans text-xs font-medium text-gray-900 uppercase transition-all select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                                                          type="button"
-                                                      >
-                                                          OPEN
-                                                      </button>
-                                                  </td>
-                                              </tr>
-                                          </>
-                                      );
-                                  })
-                                : ""}
+                            {getUserLeagues.data && getUserLeagues.data.data && getUserLeagues.data.data.length > 0 ? (
+                                getUserLeagues.data.data.map((l) => {
+                                    return (
+                                        <tr key={l.id}>
+                                            <td className="p-4 border-b border-blue-gray-50">
+                                                <div className="flex items-center gap-3">{l.name}</div>
+                                            </td>
+                                            <td className="p-4 border-b border-blue-gray-50">FIELD 1</td>
+                                            <td className="p-4 border-b border-blue-gray-50">FIELD 2</td>
+                                            <td className="p-4 border-b border-blue-gray-50">FIELD 3</td>
+                                            <td className="p-4 border-b border-blue-gray-50">
+                                                <Link to={`/dashboard/my-leagues/${l.name}-${l.isPublic ? "pub" : "priv"}`}>
+                                                    <button
+                                                        className="relative h-10 max-h-[40px] w-10 max-w-[40px] rounded-lg text-center align-middle font-sans text-xs font-medium text-gray-900 uppercase transition-all select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                                                        type="button"
+                                                    >
+                                                        OPEN
+                                                    </button>
+                                                </Link>
+                                            </td>
+                                        </tr>
+                                    );
+                                })
+                            ) : (
+                                <tr></tr>
+                            )}
                         </tbody>
                     </table>
                 </div>
