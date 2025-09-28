@@ -7,7 +7,7 @@ import { Dashboard } from "./components/custom/Dashboard";
 import { Main } from "./components/custom/Main";
 import { Friends } from "./components/custom/Friends";
 import { Toaster } from "react-hot-toast";
-import { Invites } from "./components/custom/Invites";
+import { Notifications } from "./components/custom/Notifications";
 import { NewLeague } from "./components/custom/NewLeague";
 import { MyLeagues } from "./components/custom/MyLeagues";
 import { useEffect } from "react";
@@ -18,6 +18,7 @@ import { PublicRoutes } from "./components/custom/PublicRoutes";
 import { ProtectedRoutes } from "./components/custom/ProtectedRoutes";
 import { LoadingSpinner } from "./components/custom/LoadingSpinner";
 import { LeagueDetails } from "./components/custom/LeagueDetails";
+import { Auction } from "./components/custom/Auction";
 
 function App() {
     const dispatch = useDispatch();
@@ -73,10 +74,11 @@ function App() {
                     >
                         <Route index element={<Dashboard />} />
                         <Route path="friends" element={<Friends />} />
-                        <Route path="invites" element={<Invites />} />
+                        <Route path="invites" element={<Notifications />} />
                         <Route path="new-league" element={<NewLeague />} />
                         <Route path="my-leagues" element={<MyLeagues />} />
-                        <Route path="my-leagues/:leaguename" element={<LeagueDetails/>} />
+                        <Route path="my-leagues/:leaguename" element={<LeagueDetails />} />
+                        <Route path="my-leagues/:leaguename/auction" element={<Auction />} />
                     </Route>
                 </Routes>
             </BrowserRouter>

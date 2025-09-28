@@ -27,12 +27,38 @@ const getFriends = async () => {
     return res.data;
 };
 
+const getInvites = async () => {
+    const res = await axiosConf.get(`${URL}/users/invites/received`);
+    return res.data;
+};
+
+const sendInvite = async (data) => {
+    const res = await axiosConf.post(`${URL}/users/invites`, data);
+    return res.data;
+};
+
+const acceptInvite = async (requestId) => {
+    const res = await axiosConf.patch(`${URL}/users/invites/${requestId}/accept`);
+    return res.data;
+};
+
+const declineInvite = async (requestId) => {
+    const res = await axiosConf.patch(`${URL}/users/invites/${requestId}/decline`);
+    return res.data;
+};
+
+
+
 const userAPI = {
     friendRequest,
     getFriendRequests,
     acceptFriendRequest,
     declineFriendRequest,
     getFriends,
+    sendInvite,
+    getInvites,
+    acceptInvite,
+    declineInvite,
 };
 
 export default userAPI;

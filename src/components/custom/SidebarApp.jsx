@@ -60,7 +60,6 @@ const leagueItems = [
 ];
 
 export function SidebarApp({ ...props }) {
-    //const user = useSelector((state) => state.user);
     const user = useSelector((state) => state.auth.user);
     const dispatch = useDispatch();
     const navigate = useNavigate();

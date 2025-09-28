@@ -16,10 +16,22 @@ const getLeagueDetails = async (name) => {
     return res.data;
 };
 
+const createTeam = async (data) => {
+    const res = await axiosConf.post(`${URL}/leagues/teams`, data);
+    return res.data;
+};
+
+const craeteAuction = async (data) => {
+    const res = await axiosConf.post(`${URL}/leagues/auctions`, data);
+    return res.data;
+};
+
 const leaguesAPI = {
     createLeague,
     getUserLeagues,
     getLeagueDetails,
+    createTeam,
+    craeteAuction,
 };
 
 export default leaguesAPI;

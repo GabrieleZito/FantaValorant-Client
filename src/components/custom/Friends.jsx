@@ -1,5 +1,5 @@
 import { Search } from "lucide-react";
-import {  useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import toast, { ToastBar, Toaster } from "react-hot-toast";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -10,12 +10,10 @@ import { useLocation } from "react-router";
 import { useBreadcrumb } from "@/hooks/useBreadcrumb";
 
 export function Friends() {
-    const user = useSelector((state) => state.user);
     const [search, setSearch] = useState("");
     const location = useLocation();
     const dispatch = useDispatch();
     useBreadcrumb(dispatch, location.pathname);
-
 
     const sendRequest = useMutation({
         mutationFn: userAPI.friendRequest,
@@ -74,10 +72,7 @@ export function Friends() {
                     <div className="justify-center h-full tex-center">
                         {getFriends.data && getFriends.data.data && getFriends.data.data.length > 0 ? (
                             getFriends.data.data.map((f) => {
-                                let friend;
-                                if (f.Sender.id == user.id) {
-                                    friend = f.Receiver;
-                                } else friend = f.Sender;
+
                                 return (
                                     <div
                                         key={f.id}
@@ -85,11 +80,11 @@ export function Friends() {
                                     >
                                         <div className="flex items-center space-x-3">
                                             <Avatar className="w-10 h-10">
-                                                <AvatarImage src={friend.propic} alt={friend.username} />
-                                                <AvatarFallback>{f.Sender.username.charAt(0)}</AvatarFallback>
+                                                <AvatarImage src={f.propic} alt={f.username} />
+                                                <AvatarFallback>{f.username.charAt(0)}</AvatarFallback>
                                             </Avatar>
                                             <div className="flex items-center">
-                                                <p className="font-semibold text-foreground">{friend.username}</p>
+                                                <p className="font-semibold text-foreground">{f.username}</p>
                                                 {/* <p className="text-sm text-muted-foreground">@{f.username}</p> */}
                                             </div>
                                         </div>
