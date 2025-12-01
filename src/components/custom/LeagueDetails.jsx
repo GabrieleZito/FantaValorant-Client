@@ -10,6 +10,7 @@ import { Button } from "../ui/button";
 import toast from "react-hot-toast";
 import { FriendInvite } from "./FriendInvite";
 import { Ban } from "lucide-react";
+import { useSocket } from "@/contexts/SocketContext";
 
 export function LeagueDetails() {
     const queryClient = useQueryClient();
@@ -18,6 +19,7 @@ export function LeagueDetails() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const params = useParams();
+    const { socket, isConnected } = useSocket();
     const [teamName, setTeamName] = useState("");
     useBreadcrumb(dispatch, location.pathname.substring(0, location.pathname.lastIndexOf("-")));
 
@@ -30,13 +32,14 @@ export function LeagueDetails() {
     const createTeam = useMutation({
         mutationFn: leaguesAPI.createTeam,
         mutationKey: ["createTeam"],
+        onSuccess: (data) => {
+            console.log(data);
+            toast.success("YEAH");
+            queryClient.invalidateQueries(["leagueDetails"]);
+        },
         onError: (data) => {
             console.log("Error: ", data);
             toast.error("Something went wrong", { position: "top-center" });
-        },
-        onSuccess: (data) => {
-            console.log(data);
-            queryClient.invalidateQueries(["leagueDetails"]);
         },
     });
 
@@ -46,18 +49,27 @@ export function LeagueDetails() {
     };
 
     const createAuction = useMutation({
-        mutationFn: leaguesAPI.craeteAuction,
+        mutationFn: leaguesAPI.createAuction,
         mutationKey: ["createAuction"],
-        onSuccess: () => {
+        onSuccess: (data) => {
+            console.log(data);
+            console.log("SUCCESS");
+            queryClient.invalidateQueries(["leagueDetails"]);
+            socket.emit("auction:create", { auction: data.data });
             navigate(location.pathname + "/auction");
         },
-        onError: () => {
+        onError: (data) => {
+            console.log(data.response.data);
             toast.error("Something went wrong", { position: "top-center" });
         },
     });
 
-    const handleStartAuction = () => {
-        createAuction.mutate();
+    const handleCreateAuction = (leagueId) => {
+        createAuction.mutate({ leagueId: leagueId });
+    };
+
+    const handleOpenAuction = () => {
+        navigate(location.pathname + "/auction");
     };
 
     if (getLeagueDetails.isError) {
@@ -75,6 +87,7 @@ export function LeagueDetails() {
 
     if (getLeagueDetails.isSuccess) {
         const league = getLeagueDetails.data.data;
+        console.log(league);
         const member = league.Members.filter((m) => m.id == user.id)[0];
         if (!member.Team) {
             return (
@@ -101,13 +114,29 @@ export function LeagueDetails() {
                 </div>
                 {league.createdBy == user.id ? (
                     <div className="flex justify-between p-3">
-                        <Button onClick={handleStartAuction} className="hover:cursor-pointer">
-                            Start Auction
-                        </Button>
+                        {league.Auction ? (
+                            <Button onClick={() => handleOpenAuction()} className="hover:cursor-pointer">
+                                Open Auction
+                            </Button>
+                        ) : (
+                            <Button onClick={() => handleCreateAuction(league.id)} className="hover:cursor-pointer">
+                                Create Auction
+                            </Button>
+                        )}
                         <FriendInvite leagueId={league.id} />
                     </div>
                 ) : (
-                    ""
+                    <>
+                        {league.Auction ? (
+                            <div className="flex justify-between p-3">
+                                <Button onClick={handleOpenAuction} className="hover:cursor-pointer">
+                                    Open Auction
+                                </Button>
+                            </div>
+                        ) : (
+                            ""
+                        )}
+                    </>
                 )}
                 <div className="p-3">
                     {league.Members.map((m) => (

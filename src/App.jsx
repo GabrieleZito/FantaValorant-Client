@@ -25,8 +25,6 @@ function App() {
     const { isLoading } = useSelector((state) => state.auth);
     useEffect(() => {
         const checkAuth = async () => {
-            //console.log("DENTRO checkAUTH");
-
             try {
                 const response = await authAPI.me();
 
