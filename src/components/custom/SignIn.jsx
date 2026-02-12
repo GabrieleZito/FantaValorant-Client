@@ -58,8 +58,9 @@ function LoginForm({ setIsLogin }) {
         },
         onError: (err) => {
             console.log(err);
-            dispatch(loginError("Wrong username or password"));
-            setError("password", { message: "Wrong username or password" });
+            const errorMessage = err.response?.data?.message || "Wrong username or password";
+            dispatch(loginError(errorMessage));
+            setError("password", { message: errorMessage });
         },
         retry: false,
     });
@@ -122,7 +123,7 @@ function LoginForm({ setIsLogin }) {
                             </label>
                         </div>
                     </div>
-                    <a href="#" className="text-sm font-medium hover:underline">
+                    <a href="#" className="text-sm font-medium hover:underline" onClick={(e) => e.preventDefault()}>
                         Forgot password?
                     </a>
                 </div>
@@ -135,8 +136,15 @@ function LoginForm({ setIsLogin }) {
                 </button>
 
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                    Don’t have an account yet?{" "}
-                    <a href="#" className="font-medium text-red-500 hover:underline" onClick={() => setIsLogin((x) => !x)}>
+                    Don't have an account yet?{" "}
+                    <a
+                        href="#"
+                        className="font-medium text-red-500 hover:underline"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            setIsLogin((x) => !x);
+                        }}
+                    >
                         Sign up
                     </a>
                 </p>
@@ -302,6 +310,7 @@ function RegisterForm({ setIsLogin }) {
                 </div>
 
                 <button
+                    type="submit"
                     disabled={isLoading}
                     className="w-full rounded-lg bg-red-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:cursor-pointer hover:bg-red-600 focus:ring-4 focus:ring-neutral-300 focus:outline-none dark:bg-neutral-600 dark:hover:bg-neutral-700 dark:focus:ring-neutral-800"
                 >
@@ -310,7 +319,14 @@ function RegisterForm({ setIsLogin }) {
 
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                     Already have an account?{" "}
-                    <a href="#" className="font-medium text-red-500 hover:underline" onClick={() => setIsLogin((x) => !x)}>
+                    <a
+                        href="#"
+                        className="font-medium text-red-500 hover:underline"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            setIsLogin((x) => !x);
+                        }}
+                    >
                         Login here
                     </a>
                 </p>

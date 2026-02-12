@@ -1,4 +1,4 @@
-import { setToken } from "@/redux/slices/authSlice";
+import { setToken, clearToken } from "@/redux/slices/authSlice";
 import store from "@/redux/store";
 import axios from "axios";
 const URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
@@ -24,7 +24,13 @@ axiosConf.interceptors.response.use(
     async (error) => {
         const originalRequest = error.config;
 
-        if (error.response?.status === 401 && !originalRequest._retry) {
+        // Skip refresh logic for auth endpoints (login, register, logout)
+        const isAuthEndpoint =
+            originalRequest.url?.includes("/auth/login") ||
+            originalRequest.url?.includes("/auth/register") ||
+            originalRequest.url?.includes("/auth/logout");
+
+        if (error.response?.status === 401 && !originalRequest._retry && !isAuthEndpoint) {
             originalRequest._retry = true;
 
             if (!isRefreshing) {
