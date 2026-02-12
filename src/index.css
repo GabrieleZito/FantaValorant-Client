@@ -1,1 +1,15 @@
 @import "tailwindcss";
+
+@font-face {
+    font-family: "Valorant";
+    src: url("./assets/fonts/ValorantFont.ttf");
+}
+@font-face {
+    font-family: "Tungsten";
+    src: url("./assets/fonts/TungstenBold.ttf");
+}
+
+@theme {
+    --font-valorant: "Valorant", sans-serif;
+    --font-tungsten: "Tungsten", sans-serif;
+}
