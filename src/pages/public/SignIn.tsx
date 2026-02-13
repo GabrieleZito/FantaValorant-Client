@@ -35,7 +35,6 @@ function LoginForm({ setIsLogin }: { setIsLogin: () => void }) {
     const {
         register,
         handleSubmit,
-        getValues,
         setError,
         formState: { errors },
     } = useForm({ resolver: zodResolver(LoginSchema) });
@@ -49,6 +48,9 @@ function LoginForm({ setIsLogin }: { setIsLogin: () => void }) {
             navigate("/dashboard");
         }
         if (login.rejected.match(loginResult)) {
+            console.log(loginResult);
+
+            setError("password", { message: loginResult.payload as string });
         }
     };
 
@@ -136,7 +138,6 @@ function RegisterForm({ setIsLogin }: { setIsLogin: () => void }) {
     const {
         register,
         handleSubmit,
-        getValues,
         setError,
         formState: { errors },
     } = useForm({ resolver: zodResolver(RegisterSchema) });

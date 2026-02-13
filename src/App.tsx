@@ -13,6 +13,13 @@ function App() {
                         <Route index element={<Home />} />
                         <Route path="/sign-in" element={<SignIn />} />
                     </Route>
+                    <Route path="/dashboard">
+                        <Route index />
+                        <Route path="friends" />
+                        <Route path="invites" />
+                        <Route path="new-league" />
+                        <Route path="my-leagues" />
+                    </Route>
                 </Routes>
             </BrowserRouter>
         </>

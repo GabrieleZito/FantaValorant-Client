@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import authAPI from "../../API/authAPI";
 import type { LoginType, RegisterType, User } from "../../types/user";
+import type { RootState } from "../store";
 
 interface AuthState {
     accessToken: string | null;
@@ -35,6 +36,15 @@ export const registerUser = createAsyncThunk("auth/register", async (userData: R
         return response.data;
     } catch (error: any) {
         return rejectWithValue(error.response?.data || "Registration failed");
+    }
+});
+
+export const logout = createAsyncThunk("auth/logout", async (_, { rejectWithValue }) => {
+    try {
+        const response = await authAPI.logout();
+        return response.data;
+    } catch (error: any) {
+        return rejectWithValue(error.response?.data.message || "Logout failed");
     }
 });
 
@@ -79,7 +89,17 @@ const authSlice = createSlice({
                 state.isAuthenticated = true;
                 state.isLoading = false;
             });
+
+        builder
+            .addCase(logout.pending, () => {})
+            .addCase(logout.rejected, () => {})
+            .addCase(logout.fulfilled, (state) => {
+                state = initialState;
+            });
     },
 });
+
+export const selectUser = (state: RootState) => state.auth.user;
+export const selectIsAuthenticated = (state: RootState) => state.auth.isAuthenticated;
 
 export default authSlice.reducer;
