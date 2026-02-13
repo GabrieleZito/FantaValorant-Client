@@ -7,11 +7,17 @@ export type RegisterType = z.infer<typeof RegisterSchema>;
 
 export type User = {
     id: number;
-    email: string;
+    email: string | null;
     username: string;
-    bio: string;
-    firstName: string;
-    lastName: string;
-    birthday: Date;
+    bio: string | null;
+    firstName: string | null;
+    lastName: string | null;
+    birthday: Date | null;
     propic: string;
+};
+
+export type ServerResponse<T> = {
+    success: boolean;
+    data: T | null;
+    message: string;
 };

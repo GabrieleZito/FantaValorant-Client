@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import authAPI from "../../API/authAPI";
-import type { LoginType, RegisterType, User } from "../../types/user";
+import type { LoginType, RegisterType, User } from "../../types/types";
 import type { RootState } from "../store";
 
 interface AuthState {
@@ -67,8 +67,8 @@ const authSlice = createSlice({
             .addCase(login.fulfilled, (state, action) => {
                 state.error = "";
                 state.isLoading = false;
-                state.user = action.payload.user;
-                state.accessToken = action.payload.accessToken;
+                state.user = action.payload!.user;
+                state.accessToken = action.payload!.accessToken;
                 state.isAuthenticated = true;
             });
 
@@ -84,8 +84,9 @@ const authSlice = createSlice({
             })
             .addCase(registerUser.fulfilled, (state, action) => {
                 console.log(action);
-                state.accessToken = action.payload.accessToken;
-                state.user = action.payload.user;
+                const payload = action.payload as { user: User; accessToken: string };
+                state.accessToken = payload.accessToken;
+                state.user = payload.user;
                 state.isAuthenticated = true;
                 state.isLoading = false;
             });

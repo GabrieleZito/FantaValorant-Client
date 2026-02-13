@@ -5,6 +5,8 @@ import { SignIn } from "./pages/public/SignIn";
 import { PublicTemplate } from "./pages/public/PublicTemplate";
 import { Main } from "./pages/protected/Main";
 import { Dashboard } from "./pages/protected/Dashboard";
+import { Toaster } from "react-hot-toast";
+import { Friends } from "./pages/protected/Friends";
 
 function App() {
     return (
@@ -17,13 +19,14 @@ function App() {
                     </Route>
                     <Route path="/dashboard" element={<Main />}>
                         <Route index element={<Dashboard />} />
-                        <Route path="friends" />
+                        <Route path="friends" element={<Friends />} />
                         <Route path="invites" />
                         <Route path="new-league" />
                         <Route path="my-leagues" />
                     </Route>
                 </Routes>
             </BrowserRouter>
+            <Toaster position="top-right" />
         </>
     );
 }

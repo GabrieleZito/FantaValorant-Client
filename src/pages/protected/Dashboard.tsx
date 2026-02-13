@@ -4,7 +4,6 @@ import { useLocation } from "react-router";
 export function Dashboard() {
     const location = useLocation();
     useBreadcrumb(location.pathname);
-
     return (
         <>
             <div className="flex flex-col flex-1 h-full gap-4 p-4">
