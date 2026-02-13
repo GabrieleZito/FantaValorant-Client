@@ -3,6 +3,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginSchema } from "../../zod/LoginSchema";
 import { RegisterSchema } from "../../zod/RegisterSchema";
+import type { LoginType, RegisterType } from "../../types/user";
+import { login, registerUser } from "../../redux/slices/authSlice";
+import { useAppDispatch } from "../../hooks/reduxHooks";
+import { useNavigate } from "react-router";
 
 export function SignIn() {
     const [isLogin, setIsLogin] = useState<boolean>(true);
@@ -26,6 +30,8 @@ export function SignIn() {
 }
 
 function LoginForm({ setIsLogin }: { setIsLogin: () => void }) {
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
     const {
         register,
         handleSubmit,
@@ -35,13 +41,20 @@ function LoginForm({ setIsLogin }: { setIsLogin: () => void }) {
     } = useForm({ resolver: zodResolver(LoginSchema) });
 
     const isLoading = false;
-    const login = () => {
-        console.log("LOGIN");
+    const onLogin = async (credentials: LoginType) => {
+        const loginResult = await dispatch(login(credentials));
+        console.log(loginResult);
+
+        if (login.fulfilled.match(loginResult)) {
+            navigate("/dashboard");
+        }
+        if (login.rejected.match(loginResult)) {
+        }
     };
 
     return (
         <>
-            <form onSubmit={handleSubmit(login)} className="space-y-4 md:space-y-6">
+            <form onSubmit={handleSubmit(onLogin)} className="space-y-4 md:space-y-6">
                 <div>
                     <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                         Your email
@@ -118,6 +131,8 @@ function LoginForm({ setIsLogin }: { setIsLogin: () => void }) {
 }
 
 function RegisterForm({ setIsLogin }: { setIsLogin: () => void }) {
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
     const {
         register,
         handleSubmit,
@@ -127,12 +142,20 @@ function RegisterForm({ setIsLogin }: { setIsLogin: () => void }) {
     } = useForm({ resolver: zodResolver(RegisterSchema) });
 
     const isLoading = false;
-    const registerUser = () => {
-        console.log("REGISTER");
+    const onRegisterUser = async (userData: RegisterType) => {
+        const registerResult = await dispatch(registerUser(userData));
+        console.log(registerResult);
+        if (registerUser.fulfilled.match(registerResult)) {
+            navigate("/dashboard");
+        }
+        if (registerUser.rejected.match(registerResult)) {
+            const error = registerResult.payload as { data: { field: string }; message: string };
+            setError(error.data.field as "email" | "password" | "firstName" | "lastName" | "username" | "repeatPassword", { message: error.message });
+        }
     };
 
     return (
-        <form onSubmit={handleSubmit(registerUser)} className="space-y-4 md:space-y-6" noValidate>
+        <form onSubmit={handleSubmit(onRegisterUser)} className="space-y-4 md:space-y-6" noValidate>
             <div className="flex flex-row gap-2">
                 <div className="w-full">
                     <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
