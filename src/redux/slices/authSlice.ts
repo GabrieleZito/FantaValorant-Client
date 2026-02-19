@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import authAPI from "../../API/authAPI";
 import type { LoginType, RegisterType, User } from "../../types/types";
 import type { RootState } from "../store";
@@ -48,10 +48,61 @@ export const logout = createAsyncThunk("auth/logout", async (_, { rejectWithValu
     }
 });
 
+export const refreshAccessToken = createAsyncThunk("auth/refreshAccess", async (_, { rejectWithValue }) => {
+    try {
+        const response = await authAPI.refresh();
+        return response.data;
+    } catch (error: any) {
+        return rejectWithValue(error.response?.data.message || "Session Expired");
+    }
+});
+
+export const checkAuth = createAsyncThunk("auth/checkAuth", async (_, { rejectWithValue }) => {
+    try {
+        const response = await authAPI.me();
+        return response.data;
+    } catch (error: any) {
+        return rejectWithValue(error.response?.data?.message || "Not authenticated");
+    }
+});
+
+/* export const checkAuth = createAsyncThunk<{ user: User }, void, { rejectValue: string }>("auth/checkAuth", async (_, { rejectWithValue }) => {
+    try {
+        // Controlla se c'è un access token nei cookies
+        const accessToken = getCookie("accessToken");
+
+        if (!accessToken) {
+            // Nessun token, prova refresh
+            const refreshResponse = await authAPI.refresh();
+
+            if (refreshResponse.success) {
+                return { user: refreshResponse.data.user };
+            } else {
+                throw new Error("No session");
+            }
+        }
+
+        // Token presente, verifica che sia valido
+        const response = await authAPI.getCurrentUser();
+
+        if (response.success) {
+            return { user: response.data.user };
+        } else {
+            throw new Error("Invalid session");
+        }
+    } catch (error: any) {
+        return rejectWithValue("No active session");
+    }
+}); */
+
 const authSlice = createSlice({
     name: "auth",
     initialState,
-    reducers: {},
+    reducers: {
+        updateAccessToken: (state, action: PayloadAction<string>) => {
+            state.accessToken = action.payload;
+        },
+    },
     extraReducers(builder) {
         builder
             .addCase(login.pending, (state) => {
@@ -97,10 +148,33 @@ const authSlice = createSlice({
             .addCase(logout.fulfilled, (state) => {
                 state = initialState;
             });
+        builder
+            .addCase(refreshAccessToken.rejected, (state) => {
+                state = initialState;
+            })
+            .addCase(refreshAccessToken.fulfilled, (state, action) => {
+                state.accessToken = action.payload?.accessToken as string;
+            });
+
+        builder
+            .addCase(checkAuth.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(checkAuth.rejected, (state) => {
+                state.isLoading = false;
+                state = initialState;
+            })
+            .addCase(checkAuth.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.user = action.payload!.user;
+                state.accessToken = action.payload!.accessToken;
+                state.isAuthenticated = true;
+                state.error = "";
+            });
     },
 });
 
 export const selectUser = (state: RootState) => state.auth.user;
 export const selectIsAuthenticated = (state: RootState) => state.auth.isAuthenticated;
-
+export const { updateAccessToken } = authSlice.actions;
 export default authSlice.reducer;

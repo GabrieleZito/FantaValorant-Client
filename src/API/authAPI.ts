@@ -21,10 +21,25 @@ const logout = async (): Promise<ServerResponse<null>> => {
     return res.data;
 };
 
+const refresh = async (): Promise<ServerResponse<{ accessToken: string }>> => {
+    const res = await axiosConf.get(`/auth/refresh`);
+    console.log("REFRESH");
+    console.log(res.data);
+
+    return res.data;
+};
+
+const me = async (): Promise<ServerResponse<{ user: User; accessToken: string }>> => {
+    const res = await axiosConf.get(`/auth/me`);
+    return res.data;
+};
+
 const authAPI = {
     register,
     login,
     logout,
+    refresh,
+    me,
 };
 
 export default authAPI;

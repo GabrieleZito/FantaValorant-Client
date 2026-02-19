@@ -7,8 +7,20 @@ import { Main } from "./pages/protected/Main";
 import { Dashboard } from "./pages/protected/Dashboard";
 import { Toaster } from "react-hot-toast";
 import { Friends } from "./pages/protected/Friends";
+import { Invites } from "./pages/protected/Invites";
+import { useEffect } from "react";
+import { useAppDispatch } from "./hooks/reduxHooks";
+import { checkAuth } from "./redux/slices/authSlice";
+import { Agents } from "./pages/protected/Agents";
 
 function App() {
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        // Check if user is still logged in on app load
+        dispatch(checkAuth());
+    }, [dispatch]);
+
     return (
         <>
             <BrowserRouter>
@@ -20,7 +32,8 @@ function App() {
                     <Route path="/dashboard" element={<Main />}>
                         <Route index element={<Dashboard />} />
                         <Route path="friends" element={<Friends />} />
-                        <Route path="invites" />
+                        <Route path="invites" element={<Invites />} />
+                        <Route path="agents" element={<Agents />} />
                         <Route path="new-league" />
                         <Route path="my-leagues" />
                     </Route>

@@ -18,41 +18,86 @@ import { Link, useNavigate } from "react-router";
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
 import { logout, selectUser } from "@/redux/slices/authSlice";
 
-const leaderboardItems = [
+const sidebarItems = [
     {
-        title: "Weekly Rankings",
-        icon: Crown,
-        url: "#",
+        title: "Navigation",
+        items: [
+            {
+                title: "Dashboard",
+                url: "/dashboard",
+                icon: LayoutDashboard,
+            },
+        ],
     },
     {
-        title: "Monthly Champions",
-        icon: Trophy,
-        url: "#",
+        title: "Leaderboards",
+        items: [
+            {
+                title: "Weekly Rankings",
+                icon: Crown,
+                url: "#",
+            },
+            {
+                title: "Monthly Champions",
+                icon: Trophy,
+                url: "#",
+            },
+            {
+                title: "All Time Leaders",
+                icon: Medal,
+                url: "#",
+            },
+            {
+                title: "Achievement Board",
+                icon: Award,
+                url: "#",
+            },
+        ],
     },
     {
-        title: "All Time Leaders",
-        icon: Medal,
-        url: "#",
+        title: "Leagues",
+        items: [
+            {
+                title: "My Leagues",
+                url: "/dashboard/my-leagues",
+                icon: Users,
+            },
+            {
+                title: "Create League",
+                url: "/dashboard/new-league",
+                icon: Users,
+            },
+            {
+                title: "League Settings",
+                url: "#",
+                icon: Users,
+            },
+        ],
     },
     {
-        title: "Achievement Board",
-        icon: Award,
-        url: "#",
+        title: "Network",
+        items: [
+            {
+                title: "Friends",
+                url: "/dashboard/friends",
+                icon: UserPlus,
+            },
+            {
+                title: "Invites",
+                url: "/dashboard/friends",
+                icon: Mail,
+            },
+        ],
     },
-];
-
-const leagueItems = [
     {
-        title: "My Leagues",
-        url: "/dashboard/my-leagues",
-    },
-    {
-        title: "Create League",
-        url: "/dashboard/new-league",
-    },
-    {
-        title: "League Settings",
-        url: "#",
+        title: "Game",
+        items: [
+            {
+                title: "Agents",
+                url: "/dashboard/agents",
+                icon: User,
+            },
+        ],
     },
 ];
 
@@ -118,78 +163,25 @@ export function SidebarApp(props: any) {
             </SidebarHeader>
 
             <SidebarContent>
-                <SidebarGroup>
-                    <SidebarGroupLabel>Navigation</SidebarGroupLabel>
-                    <SidebarGroupContent>
-                        <SidebarMenu>
-                            <SidebarMenuItem>
-                                <SidebarMenuButton asChild>
-                                    <Link to={"/dashboard"}>
-                                        <LayoutDashboard />
-                                        <span>Dashboard</span>
-                                    </Link>
-                                </SidebarMenuButton>
-                            </SidebarMenuItem>
-                        </SidebarMenu>
-                    </SidebarGroupContent>
-                </SidebarGroup>
-                <SidebarGroup>
-                    <SidebarGroupLabel>Leaderboards</SidebarGroupLabel>
-                    <SidebarGroupContent>
-                        <SidebarMenu>
-                            {leaderboardItems.map((item) => (
-                                <SidebarMenuItem key={item.title}>
-                                    <SidebarMenuButton asChild>
-                                        <Link to={item.url}>
-                                            <item.icon />
-                                            <span>{item.title}</span>
-                                        </Link>
-                                    </SidebarMenuButton>
-                                </SidebarMenuItem>
-                            ))}
-                        </SidebarMenu>
-                    </SidebarGroupContent>
-                </SidebarGroup>
-                <SidebarGroup>
-                    <SidebarGroupLabel>Leagues</SidebarGroupLabel>
-                    <SidebarGroupContent>
-                        <SidebarMenu>
-                            {leagueItems.map((item) => (
-                                <SidebarMenuItem key={item.title}>
-                                    <SidebarMenuButton asChild>
-                                        <Link to={item.url}>
-                                            <Users />
-                                            <span>{item.title}</span>
-                                        </Link>
-                                    </SidebarMenuButton>
-                                </SidebarMenuItem>
-                            ))}
-                        </SidebarMenu>
-                    </SidebarGroupContent>
-                </SidebarGroup>
-                <SidebarGroup>
-                    <SidebarGroupLabel>Network</SidebarGroupLabel>
-                    <SidebarGroupContent>
-                        <SidebarMenu>
-                            <SidebarMenuItem>
-                                <SidebarMenuButton asChild>
-                                    <Link to="/dashboard/friends">
-                                        <UserPlus />
-                                        <span>Friends</span>
-                                    </Link>
-                                </SidebarMenuButton>
-                            </SidebarMenuItem>
-                            <SidebarMenuItem>
-                                <SidebarMenuButton asChild>
-                                    <Link to="/dashboard/invites">
-                                        <Mail />
-                                        <span>Invites</span>
-                                    </Link>
-                                </SidebarMenuButton>
-                            </SidebarMenuItem>
-                        </SidebarMenu>
-                    </SidebarGroupContent>
-                </SidebarGroup>
+                {sidebarItems.map((s) => (
+                    <SidebarGroup key={s.title}>
+                        <SidebarGroupLabel>{s.title}</SidebarGroupLabel>
+                        <SidebarGroupContent>
+                            <SidebarMenu>
+                                {s.items.map((item) => (
+                                    <SidebarMenuItem key={item.title}>
+                                        <SidebarMenuButton asChild>
+                                            <Link to={item.url}>
+                                                <item.icon />
+                                                <span>{item.title}</span>
+                                            </Link>
+                                        </SidebarMenuButton>
+                                    </SidebarMenuItem>
+                                ))}
+                            </SidebarMenu>
+                        </SidebarGroupContent>
+                    </SidebarGroup>
+                ))}
             </SidebarContent>
 
             <SidebarFooter>
