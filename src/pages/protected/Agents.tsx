@@ -2,9 +2,11 @@ import { useBreadcrumb } from "@/hooks/useBreadcrumb";
 import { useLocation } from "react-router";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
-import { AstraModel } from "@/components/models/AstraModel.js";
-import { BreachModel } from "@/components/models/Breach";
 import { SRGBColorSpace } from "three";
+
+import { SovaModel } from "@/components/models/Sova";
+import { ViperModel } from "@/components/models/Viper";
+import { YoruModel } from "@/components/models/Yoru";
 
 export function Agents() {
     const locator = useLocation();
@@ -20,7 +22,7 @@ export function Agents() {
                 <directionalLight position={[10, 10, -5]} intensity={4} />
                 <directionalLight position={[0, 0, 5]} intensity={4} />
                 <directionalLight position={[0, 0, -5]} intensity={4} />
-                <BreachModel />
+                <YoruModel />
                 <OrbitControls />
             </Canvas>
         </div>

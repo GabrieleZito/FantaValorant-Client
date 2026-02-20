@@ -20,14 +20,13 @@ export function BreachModel(props: any) {
         const hair = materials.Breach_Hair as THREE.MeshStandardMaterial;
 
         mat.vertexColors = false;
-        hair.vertexColors = false
+        hair.vertexColors = false;
 
         mat.metalness = 0;
-        hair.metalness = 0
+        hair.metalness = 0;
 
         mat.roughness = 0.8;
-        hair.roughness = 0.8
-
+        hair.roughness = 0.8;
     }, [materials]);
 
     return (
