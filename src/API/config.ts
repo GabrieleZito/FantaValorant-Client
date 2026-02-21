@@ -9,7 +9,7 @@ const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 // Create axios instance
 export const api = axios.create({
     baseURL: API_URL,
-    withCredentials: true, // ⭐ IMPORTANTE: Invia cookies automaticamente
+    withCredentials: true,
 });
 
 // Request interceptor - Add access token to headers
@@ -76,7 +76,6 @@ api.interceptors.response.use(
                 // Il refresh token è nei cookies, quindi viene inviato automaticamente
                 const response = await axios.get(
                     `${API_URL}/auth/refresh`,
-                    {},
                     { withCredentials: true }, // Invia cookies
                 );
 

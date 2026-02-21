@@ -12,12 +12,13 @@ import { useEffect } from "react";
 import { useAppDispatch } from "./hooks/reduxHooks";
 import { checkAuth } from "./redux/slices/authSlice";
 import { Agents } from "./pages/protected/Agents";
+import { PublicRoutes } from "./pages/public/PublicRoutes";
+import { ProtectedRoutes } from "./pages/protected/ProtectedRoutes";
 
 function App() {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        // Check if user is still logged in on app load
         dispatch(checkAuth());
     }, [dispatch]);
 
@@ -25,11 +26,24 @@ function App() {
         <>
             <BrowserRouter>
                 <Routes>
-                    <Route element={<PublicTemplate />}>
+                    <Route
+                        element={
+                            <PublicRoutes>
+                                <PublicTemplate />
+                            </PublicRoutes>
+                        }
+                    >
                         <Route index element={<Home />} />
                         <Route path="/sign-in" element={<SignIn />} />
                     </Route>
-                    <Route path="/dashboard" element={<Main />}>
+                    <Route
+                        path="/dashboard"
+                        element={
+                            <ProtectedRoutes>
+                                <Main />
+                            </ProtectedRoutes>
+                        }
+                    >
                         <Route index element={<Dashboard />} />
                         <Route path="friends" element={<Friends />} />
                         <Route path="invites" element={<Invites />} />

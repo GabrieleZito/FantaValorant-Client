@@ -4,14 +4,36 @@ import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import { SRGBColorSpace } from "three";
 
-import { SovaModel } from "@/components/models/Sova";
-import { ViperModel } from "@/components/models/Viper";
 import { YoruModel } from "@/components/models/Yoru";
+import { useQuery } from "@tanstack/react-query";
+import extAPI from "@/API/extAPI";
 
 export function Agents() {
     const locator = useLocation();
     useBreadcrumb(locator.pathname);
+
+    const agents = useQuery({
+        queryFn: extAPI.getAgents,
+        queryKey: ["agents"],
+    });
+
     return (
+        agents.isSuccess && (
+            <>
+                <div className="flex m-3">
+                    <div className="flex flex-wrap gap-2">
+                        {agents.data.map((a) => (
+                            <div>
+                                <img className="h-30" src={a.displayIcon} />
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </>
+        )
+    );
+
+    /* return (
         <div className=" h-full">
             <Canvas id="canvas" gl={{ outputColorSpace: SRGBColorSpace }}>
                 <ambientLight intensity={1} />
@@ -26,5 +48,5 @@ export function Agents() {
                 <OrbitControls />
             </Canvas>
         </div>
-    );
+    ); */
 }

@@ -66,35 +66,6 @@ export const checkAuth = createAsyncThunk("auth/checkAuth", async (_, { rejectWi
     }
 });
 
-/* export const checkAuth = createAsyncThunk<{ user: User }, void, { rejectValue: string }>("auth/checkAuth", async (_, { rejectWithValue }) => {
-    try {
-        // Controlla se c'è un access token nei cookies
-        const accessToken = getCookie("accessToken");
-
-        if (!accessToken) {
-            // Nessun token, prova refresh
-            const refreshResponse = await authAPI.refresh();
-
-            if (refreshResponse.success) {
-                return { user: refreshResponse.data.user };
-            } else {
-                throw new Error("No session");
-            }
-        }
-
-        // Token presente, verifica che sia valido
-        const response = await authAPI.getCurrentUser();
-
-        if (response.success) {
-            return { user: response.data.user };
-        } else {
-            throw new Error("Invalid session");
-        }
-    } catch (error: any) {
-        return rejectWithValue("No active session");
-    }
-}); */
-
 const authSlice = createSlice({
     name: "auth",
     initialState,
