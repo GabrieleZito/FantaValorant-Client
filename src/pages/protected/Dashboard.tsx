@@ -13,7 +13,7 @@ export function Dashboard() {
                     <div className="aspect-video rounded-xl bg-blue-200/50" />
                     <div className="aspect-video rounded-xl bg-blue-200/50" />
                 </div>
-                <div className="grid max-h-[550px] min-h-[200px] gap-4 md:grid-cols-2">
+                <div className="grid max-h-137.5 min-h-50 gap-4 md:grid-cols-2">
                     <div className="rounded-xl bg-blue-200/50"></div>
                     <div className="rounded-xl bg-blue-200/50"></div>
                 </div>

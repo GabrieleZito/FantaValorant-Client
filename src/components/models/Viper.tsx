@@ -18,38 +18,14 @@ export function ViperModel(props: any) {
             <primitive object={nodes.Spine1} />
             <primitive object={nodes.Pelvis} />
             <group rotation={[0, -1.526, 0]}>
-                <skinnedMesh
-                    geometry={(nodes.Viper_Skelmeshmd019 as any).geometry}
-                    material={materials.Viper_Eye}
-                    skeleton={(nodes.Viper_Skelmeshmd019 as any).skeleton}
-                />
-                <skinnedMesh
-                    geometry={(nodes.Viper_Skelmeshmd019_1 as any).geometry}
-                    material={materials.Viper_Hair}
-                    skeleton={(nodes.Viper_Skelmeshmd019_1 as any).skeleton}
-                />
-                <skinnedMesh
-                    geometry={(nodes.Viper_Skelmeshmd019_2 as any).geometry}
-                    material={materials.Viper_Body}
-                    skeleton={(nodes.Viper_Skelmeshmd019_2 as any).skeleton}
-                />
-                <skinnedMesh
-                    geometry={(nodes.Viper_Skelmeshmd019_3 as any).geometry}
-                    material={materials.Viper_Props}
-                    skeleton={(nodes.Viper_Skelmeshmd019_3 as any).skeleton}
-                />
+                <skinnedMesh geometry={(nodes.Viper_Skelmeshmd019 as any).geometry} material={materials.Viper_Eye} skeleton={(nodes.Viper_Skelmeshmd019 as any).skeleton} />
+                <skinnedMesh geometry={(nodes.Viper_Skelmeshmd019_1 as any).geometry} material={materials.Viper_Hair} skeleton={(nodes.Viper_Skelmeshmd019_1 as any).skeleton} />
+                <skinnedMesh geometry={(nodes.Viper_Skelmeshmd019_2 as any).geometry} material={materials.Viper_Body} skeleton={(nodes.Viper_Skelmeshmd019_2 as any).skeleton} />
+                <skinnedMesh geometry={(nodes.Viper_Skelmeshmd019_3 as any).geometry} material={materials.Viper_Props} skeleton={(nodes.Viper_Skelmeshmd019_3 as any).skeleton} />
             </group>
             <group rotation={[0, -1.526, 0]}>
-                <skinnedMesh
-                    geometry={(nodes.Viper_Skelmeshmd023 as any).geometry}
-                    material={materials.Viper_Hair}
-                    skeleton={(nodes.Viper_Skelmeshmd023 as any).skeleton}
-                />
-                <skinnedMesh
-                    geometry={(nodes.Viper_Skelmeshmd023_1 as any).geometry}
-                    material={materials.Viper_Body}
-                    skeleton={(nodes.Viper_Skelmeshmd023_1 as any).skeleton}
-                />
+                <skinnedMesh geometry={(nodes.Viper_Skelmeshmd023 as any).geometry} material={materials.Viper_Hair} skeleton={(nodes.Viper_Skelmeshmd023 as any).skeleton} />
+                <skinnedMesh geometry={(nodes.Viper_Skelmeshmd023_1 as any).geometry} material={materials.Viper_Body} skeleton={(nodes.Viper_Skelmeshmd023_1 as any).skeleton} />
             </group>
         </group>
     );
