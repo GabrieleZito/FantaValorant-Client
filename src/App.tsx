@@ -14,6 +14,7 @@ import { checkAuth } from "./redux/slices/authSlice";
 import { Agents } from "./pages/protected/Agents";
 import { PublicRoutes } from "./pages/public/PublicRoutes";
 import { ProtectedRoutes } from "./pages/protected/ProtectedRoutes";
+import { AgentDetail } from "./pages/protected/AgentDetails";
 
 function App() {
     const dispatch = useAppDispatch();
@@ -48,6 +49,7 @@ function App() {
                         <Route path="friends" element={<Friends />} />
                         <Route path="invites" element={<Invites />} />
                         <Route path="agents" element={<Agents />} />
+                        <Route path="agents/:name" element={<AgentDetail />} />
                         <Route path="new-league" />
                         <Route path="my-leagues" />
                     </Route>
