@@ -122,12 +122,12 @@ const authSlice = createSlice({
         builder
             .addCase(logout.pending, () => {})
             .addCase(logout.rejected, () => {})
-            .addCase(logout.fulfilled, (state) => {
-                state = initialState;
+            .addCase(logout.fulfilled, () => {
+                return initialState;
             });
         builder
-            .addCase(refreshAccessToken.rejected, (state) => {
-                state = initialState;
+            .addCase(refreshAccessToken.rejected, () => {
+                return initialState;
             })
             .addCase(refreshAccessToken.fulfilled, (state, action) => {
                 state.accessToken = action.payload?.accessToken as string;
@@ -137,9 +137,8 @@ const authSlice = createSlice({
             .addCase(checkAuth.pending, (state) => {
                 state.isLoading = true;
             })
-            .addCase(checkAuth.rejected, (state) => {
-                state.isLoading = false;
-                state = initialState;
+            .addCase(checkAuth.rejected, () => {
+                return initialState
             })
             .addCase(checkAuth.fulfilled, (state, action) => {
                 state.isLoading = false;

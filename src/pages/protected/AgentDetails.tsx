@@ -20,11 +20,11 @@ import { SovaModel } from "@/components/models/Sova";
 import { ViperModel } from "@/components/models/Viper";
 import { YoruModel } from "@/components/models/Yoru";
 import { OrbitControls } from "@react-three/drei";
-import { Canvas, useThree } from "@react-three/fiber";
-import { useEffect } from "react";
+import { Canvas, /* useThree */ } from "@react-three/fiber";
+/* import { useEffect } from "react"; */
 import { useParams } from "react-router";
 import { SRGBColorSpace } from "three";
-import { Environment } from "@react-three/drei";
+/* import { Environment } from "@react-three/drei"; */
 const agentModelMap: Record<string, React.FC> = {
     Astra: AstraModel,
     Breach: BreachModel,
@@ -51,7 +51,7 @@ const agentModelMap: Record<string, React.FC> = {
 export function AgentDetail() {
     const { name = "" } = useParams();
     const ModelComponent = agentModelMap[name] || (() => <div>Model not found</div>);
-    function CameraSetup() {
+/*     function CameraSetup() {
         const { camera } = useThree();
 
         useEffect(() => {
@@ -60,7 +60,7 @@ export function AgentDetail() {
         }, []);
 
         return null;
-    }
+    } */
     return (
         <div className="h-full">
             <Canvas id="canvas" gl={{ outputColorSpace: SRGBColorSpace }} camera={{ position: [0.08, 1, 2.64], fov: 50 }}>

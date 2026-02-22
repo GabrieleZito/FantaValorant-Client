@@ -1,11 +1,6 @@
-const URL = import.meta.env.VITE_API_URL;
 import type { ServerResponse, User } from "@/types/types";
-import axios from "axios";
 import api from "./config";
-const axiosConf = axios.create({
-    baseURL: URL,
-    withCredentials: true,
-});
+
 
 const friendRequest = async (data: { username: string }): Promise<ServerResponse<null>> => {
     const res = await api.post(`/users/friend-requests`, data);
