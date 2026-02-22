@@ -26,6 +26,7 @@ const sidebarItems = [
                 title: "Dashboard",
                 url: "/dashboard",
                 icon: LayoutDashboard,
+                disabled: false,
             },
         ],
     },
@@ -36,21 +37,25 @@ const sidebarItems = [
                 title: "Weekly Rankings",
                 icon: Crown,
                 url: "#",
+                disabled: true,
             },
             {
                 title: "Monthly Champions",
                 icon: Trophy,
                 url: "#",
+                disabled: true,
             },
             {
                 title: "All Time Leaders",
                 icon: Medal,
                 url: "#",
+                disabled: true,
             },
             {
                 title: "Achievement Board",
                 icon: Award,
                 url: "#",
+                disabled: true,
             },
         ],
     },
@@ -61,16 +66,19 @@ const sidebarItems = [
                 title: "My Leagues",
                 url: "/dashboard/my-leagues",
                 icon: Users,
+                disabled: true,
             },
             {
                 title: "Create League",
                 url: "/dashboard/new-league",
                 icon: Users,
+                disabled: true,
             },
             {
                 title: "League Settings",
                 url: "#",
                 icon: Users,
+                disabled: true,
             },
         ],
     },
@@ -81,11 +89,13 @@ const sidebarItems = [
                 title: "Friends",
                 url: "/dashboard/friends",
                 icon: UserPlus,
+                disabled: false,
             },
             {
                 title: "Invites",
-                url: "/dashboard/friends",
+                url: "/dashboard/invites",
                 icon: Mail,
+                disabled: true,
             },
         ],
     },
@@ -96,6 +106,7 @@ const sidebarItems = [
                 title: "Agents",
                 url: "/dashboard/agents",
                 icon: User,
+                disabled: false,
             },
         ],
     },
@@ -120,40 +131,30 @@ export function SidebarApp(props: any) {
                     <SidebarMenuItem>
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                                <SidebarMenuButton
-                                    size="lg"
-                                    className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-                                >
-                                    <Avatar className="w-8 h-8 rounded-lg">
+                                <SidebarMenuButton size="lg" className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
+                                    <Avatar className="h-8 w-8 rounded-lg">
                                         <AvatarImage src={user?.propic || "/placeholder.svg"} alt={user?.firstName || ""} />
-                                        <AvatarFallback className="rounded-lg">
-                                            {user?.firstName?.charAt(0) || "" + "" + user?.lastName?.charAt(0) || ""}
-                                        </AvatarFallback>
+                                        <AvatarFallback className="rounded-lg">{user?.firstName?.charAt(0) || "" + "" + user?.lastName?.charAt(0) || ""}</AvatarFallback>
                                     </Avatar>
-                                    <div className="grid flex-1 text-sm leading-tight text-left">
-                                        <span className="font-semibold truncate">{user?.username}</span>
-                                        <span className="text-xs truncate">{user?.email}</span>
+                                    <div className="grid flex-1 text-left text-sm leading-tight">
+                                        <span className="truncate font-semibold">{user?.username}</span>
+                                        <span className="truncate text-xs">{user?.email}</span>
                                     </div>
                                     <ChevronDown className="ml-auto size-4" />
                                 </SidebarMenuButton>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent
-                                className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
-                                side="bottom"
-                                align="end"
-                                sideOffset={4}
-                            >
+                            <DropdownMenuContent className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg" side="bottom" align="end" sideOffset={4}>
                                 <DropdownMenuItem>
-                                    <User className="w-4 h-4 mr-2" />
+                                    <User className="mr-2 h-4 w-4" />
                                     <span>Account</span>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem>
-                                    <Settings className="w-4 h-4 mr-2" />
+                                    <Settings className="mr-2 h-4 w-4" />
                                     <span>Settings</span>
                                 </DropdownMenuItem>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem>
-                                    <LogOut className="w-4 h-4 mr-2" />
+                                    <LogOut className="mr-2 h-4 w-4" />
                                     <span>Log out</span>
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
@@ -170,12 +171,19 @@ export function SidebarApp(props: any) {
                             <SidebarMenu>
                                 {s.items.map((item) => (
                                     <SidebarMenuItem key={item.title}>
-                                        <SidebarMenuButton asChild>
-                                            <Link to={item.url}>
+                                        {item.disabled ? (
+                                            <SidebarMenuButton disabled>
                                                 <item.icon />
                                                 <span>{item.title}</span>
-                                            </Link>
-                                        </SidebarMenuButton>
+                                            </SidebarMenuButton>
+                                        ) : (
+                                            <SidebarMenuButton asChild>
+                                                <Link to={item.url}>
+                                                    <item.icon />
+                                                    <span>{item.title}</span>
+                                                </Link>
+                                            </SidebarMenuButton>
+                                        )}
                                     </SidebarMenuItem>
                                 ))}
                             </SidebarMenu>
