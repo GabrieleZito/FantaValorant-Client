@@ -19,8 +19,8 @@ import { SkyeModel } from "@/components/models/Skye";
 import { SovaModel } from "@/components/models/Sova";
 import { ViperModel } from "@/components/models/Viper";
 import { YoruModel } from "@/components/models/Yoru";
-import { OrbitControls } from "@react-three/drei";
-import { Canvas, /* useThree */ } from "@react-three/fiber";
+import { OrbitControls, Sphere } from "@react-three/drei";
+import { Canvas /* useThree */ } from "@react-three/fiber";
 /* import { useEffect } from "react"; */
 import { useParams } from "react-router";
 import { SRGBColorSpace } from "three";
@@ -50,26 +50,15 @@ const agentModelMap: Record<string, React.FC> = {
 };
 export function AgentDetail() {
     const { name = "" } = useParams();
-    const ModelComponent = agentModelMap[name] || (() => <div>Model not found</div>);
-/*     function CameraSetup() {
-        const { camera } = useThree();
+    const ModelComponent = agentModelMap[name] || (() => <Sphere />);
 
-        useEffect(() => {
-            //camera.position.set(0, 1.5, 2);
-            //camera.lookAt(0, 0, 0); // point camera at a specific spot
-        }, []);
-
-        return null;
-    } */
     return (
         <div className="h-full">
             <Canvas id="canvas" gl={{ outputColorSpace: SRGBColorSpace }} camera={{ position: [0.08, 1, 2.64], fov: 50 }}>
                 <OrbitControls
-                    target={[0, 1.5, 0]}
+                    target={[0, 1, 0]}
                     makeDefault
-                    onChange={(e) => {
-                        console.log(e?.target.object.position);
-                    }}
+
                 />
                 {/* <CameraSetup /> */}
                 {/* <Environment preset="city" background  /> */}

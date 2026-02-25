@@ -9,19 +9,25 @@ import { Toaster } from "react-hot-toast";
 import { Friends } from "./pages/protected/Friends";
 import { Invites } from "./pages/protected/Invites";
 import { useEffect } from "react";
-import { useAppDispatch } from "./hooks/reduxHooks";
-import { checkAuth } from "./redux/slices/authSlice";
+import { useAppDispatch, useAppSelector } from "./hooks/reduxHooks";
+import { checkAuth, selectAuthLoading } from "./redux/slices/authSlice";
 import { Agents } from "./pages/protected/Agents";
 import { PublicRoutes } from "./pages/public/PublicRoutes";
 import { ProtectedRoutes } from "./pages/protected/ProtectedRoutes";
 import { AgentDetail } from "./pages/protected/AgentDetails";
+import { LoadingSpinner } from "./components/Loading";
 
 function App() {
     const dispatch = useAppDispatch();
+    const authLoading = useAppSelector(selectAuthLoading);
 
     useEffect(() => {
         dispatch(checkAuth());
     }, [dispatch]);
+
+    if (authLoading) {
+        return <LoadingSpinner/>;
+    }
 
     return (
         <>
