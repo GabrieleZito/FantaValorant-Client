@@ -95,7 +95,7 @@ const sidebarItems = [
                 title: "Invites",
                 url: "/dashboard/invites",
                 icon: Mail,
-                disabled: true,
+                disabled: false,
             },
         ],
     },

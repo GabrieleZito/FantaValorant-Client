@@ -21,3 +21,17 @@ export type ServerResponse<T> = {
     data: T | null;
     message: string;
 };
+
+export type FriendRequest = {
+    id: number;
+    receiverId: number;
+    createdAt: Date;
+    senderId: number;
+    status: string;
+    updatedAt: Date;
+    Sender: {
+        id: number;
+        propic: string;
+        username: string;
+    };
+};

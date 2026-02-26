@@ -1,6 +1,5 @@
-import type { ServerResponse, User } from "@/types/types";
+import type { FriendRequest, ServerResponse, User } from "@/types/types";
 import api from "./config";
-
 
 const friendRequest = async (data: { username: string }): Promise<ServerResponse<null>> => {
     const res = await api.post(`/users/friend-requests`, data);
@@ -9,8 +8,10 @@ const friendRequest = async (data: { username: string }): Promise<ServerResponse
     return res.data;
 };
 
-const getFriendRequests = async () => {
+const getFriendRequests = async (): Promise<ServerResponse<FriendRequest[]>> => {
     const res = await api.get(`/users/friend-requests/received`);
+    console.log(res.data);
+
     return res.data;
 };
 

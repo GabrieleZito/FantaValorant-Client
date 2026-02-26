@@ -27,11 +27,11 @@ export function Friends() {
             console.log(res);
             toast.success(res.message, { position: "top-center" });
         },
-        onError: (res) => {
-            console.log(res);
-            /* toast.error(res.response.data.message, {
+        onError: (error: any) => {
+            console.log(error);
+            toast.error(error.response?.data?.message || "An error occurred", {
                 position: "top-center",
-            }); */
+            });
         },
     });
 
@@ -45,13 +45,13 @@ export function Friends() {
             <div className="h-full p-4">
                 <form onSubmit={submit}>
                     <div className="relative">
-                        <div className="absolute inset-y-0 flex items-center pointer-events-none start-0 ps-3">
+                        <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3">
                             <Search size={20} />
                         </div>
                         <input
                             type="search"
                             id="search"
-                            className="block w-full p-4 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 ps-10 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-4 ps-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                             placeholder="Username"
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
@@ -65,32 +65,29 @@ export function Friends() {
                         </button>
                     </div>
                 </form>
-                <div className="flex flex-col h-full">
-                    <p className="flex justify-center mt-2 text-2xl text-foreground">Your Friends</p>
-                    <div className="justify-center h-full tex-center">
+                <div className="flex h-full flex-col">
+                    <p className="text-foreground mt-2 flex justify-center text-2xl">Your Friends</p>
+                    <div className="tex-center h-full justify-center">
                         {getFriends.data && getFriends.data.data && getFriends.data.data.length > 0 ? (
                             getFriends.data.data.map((f: any) => {
                                 return (
-                                    <div
-                                        key={f.id}
-                                        className="flex items-center justify-between p-3 mt-2 transition-colors border rounded-lg bg-card hover:bg-accent/50"
-                                    >
+                                    <div key={f.id} className="bg-card hover:bg-accent/50 mt-2 flex items-center justify-between rounded-lg border p-3 transition-colors">
                                         <div className="flex items-center space-x-3">
-                                            <Avatar className="w-10 h-10">
+                                            <Avatar className="h-10 w-10">
                                                 <AvatarImage src={f.propic} alt={f.username} />
                                                 <AvatarFallback>{f.username.charAt(0)}</AvatarFallback>
                                             </Avatar>
                                             <div className="flex items-center">
-                                                <p className="font-semibold text-foreground">{f.username}</p>
+                                                <p className="text-foreground font-semibold">{f.username}</p>
                                                 {/* <p className="text-sm text-muted-foreground">@{f.username}</p> */}
                                             </div>
                                         </div>
-                                        <div className="flex items-center justify-end w-full px-5 text-foreground">{getTimeAgo(f.updatedAt)}</div>
+                                        <div className="text-foreground flex w-full items-center justify-end px-5">{getTimeAgo(f.updatedAt)}</div>
                                     </div>
                                 );
                             })
                         ) : (
-                            <div className="flex justify-center h-full text-center text-foreground">You have no friends :)</div>
+                            <div className="text-foreground flex h-full justify-center text-center">You have no friends :)</div>
                         )}
                     </div>
                 </div>
