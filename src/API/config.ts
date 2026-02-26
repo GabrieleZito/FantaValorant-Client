@@ -54,7 +54,7 @@ api.interceptors.response.use(
         const originalRequest = error.config;
 
         // Se l'errore è 401 e non abbiamo ancora provato a fare refresh
-        if (error.response?.status === 401 && !originalRequest._retry) {
+        if ((error.response?.status === 401 || error.response?.status === 403) && !originalRequest._retry) {
             // Se stiamo già refreshando, metti la richiesta in coda
             if (isRefreshing) {
                 return new Promise((resolve, reject) => {
