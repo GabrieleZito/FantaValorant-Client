@@ -16,6 +16,7 @@ import { PublicRoutes } from "./pages/public/PublicRoutes";
 import { ProtectedRoutes } from "./pages/protected/ProtectedRoutes";
 import { AgentDetail } from "./pages/protected/AgentDetails";
 import { LoadingSpinner } from "./components/Loading";
+import { Account } from "./pages/protected/Account";
 
 function App() {
     const dispatch = useAppDispatch();
@@ -26,7 +27,7 @@ function App() {
     }, [dispatch]);
 
     if (authLoading) {
-        return <LoadingSpinner/>;
+        return <LoadingSpinner />;
     }
 
     return (
@@ -58,6 +59,7 @@ function App() {
                         <Route path="agents/:name" element={<AgentDetail />} />
                         <Route path="new-league" />
                         <Route path="my-leagues" />
+                        <Route path="account" element={<Account />} />
                     </Route>
                 </Routes>
             </BrowserRouter>

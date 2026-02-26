@@ -196,10 +196,10 @@ export function SidebarApp(props: any) {
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton asChild>
-                            <a href="#">
+                            <Link to="/dashboard/account">
                                 <User />
                                 <span>Account</span>
-                            </a>
+                            </Link>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
                     <SidebarMenuItem>
