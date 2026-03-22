@@ -100,6 +100,17 @@ const sidebarItems = [
         ],
     },
     {
+        title: "Esport",
+        items: [
+            {
+                title: "Teams",
+                url: "/dashboard/esport/teams",
+                icon: Users,
+                disabled: false,
+            },
+        ],
+    },
+    {
         title: "Game",
         items: [
             {

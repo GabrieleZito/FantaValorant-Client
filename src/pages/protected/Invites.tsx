@@ -57,7 +57,7 @@ export function Invites() {
     return (
         <div>
             <p className="text-foreground flex justify-center text-2xl">Friend Requests</p>
-            <div className="py-2">
+            <div className="py-2 px-2">
                 {getFriendRequests.data?.data && getFriendRequests.data.data.length > 0 ? (
                     getFriendRequests.data.data.map((f) => (
                         <div key={f.id} className="bg-card hover:bg-accent/50 mt-2 flex items-center justify-between rounded-lg border p-3 transition-colors">
