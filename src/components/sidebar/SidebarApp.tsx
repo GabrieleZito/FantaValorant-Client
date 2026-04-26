@@ -72,7 +72,7 @@ const sidebarItems = [
                 title: "Create League",
                 url: "/dashboard/new-league",
                 icon: Users,
-                disabled: true,
+                disabled: false,
             },
             {
                 title: "League Settings",

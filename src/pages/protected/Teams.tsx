@@ -16,13 +16,13 @@ export function Teams() {
         console.log(getTeams.data.data);
         return (
             <>
-                <div className="flex flex-wrap">
+                <div className="flex flex-wrap gap-2">
                     {Object.entries(getTeams.data.data).map(([nationality, teams]) => (
                         <div key={nationality}>
                             <h2>{nationality}</h2>
-                            {teams.map((team) => (
+                            {/* {teams.map((team) => (
                                 <div key={team.id}>{team.name}</div>
-                            ))}
+                            ))} */}
                         </div>
                     ))}
                 </div>

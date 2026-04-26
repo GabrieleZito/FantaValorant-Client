@@ -18,6 +18,7 @@ import { AgentDetail } from "./pages/protected/AgentDetails";
 import { LoadingSpinner } from "./components/Loading";
 import { Account } from "./pages/protected/Account";
 import { Teams } from "./pages/protected/Teams";
+import { NewLeague } from "./pages/protected/NewLeague";
 
 function App() {
     const dispatch = useAppDispatch();
@@ -58,7 +59,7 @@ function App() {
                         <Route path="invites" element={<Invites />} />
                         <Route path="agents" element={<Agents />} />
                         <Route path="agents/:name" element={<AgentDetail />} />
-                        <Route path="new-league" />
+                        <Route path="new-league" element={<NewLeague />} />
                         <Route path="my-leagues" />
                         <Route path="account" element={<Account />} />
                         <Route path="esport/teams" element={<Teams />} />
